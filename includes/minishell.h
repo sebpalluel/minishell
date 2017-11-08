@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/23 17:01:42 by psebasti          #+#    #+#             */
-/*   Updated: 2017/10/23 17:09:02 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/11/08 12:41:19 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 # define MINISHELL_H
 
 # include "../libft/includes/libft.h"
-# include "ft_minishell_struct.h"
-# include "ft_minishell_define.h"
+# include "minishell_struct.h"
+# include "minishell_define.h"
+
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/23 16:45:28 by psebasti          #+#    #+#             */
-/*   Updated: 2017/11/08 12:40:22 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/11/08 12:42:37 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ int			main(int argc, char **argv, char **envp)
 	t_list	*env;
 
 	env = ft_envlist(envp);
+	init_implement_functions(env->content);
 	while (42)
 	{
-		//init_implement_functions(data);
 		//init_env(&(data->env), envp, NULL);
 		//data->bin_directories = get_bin_directories(envp);
 		//ft_putstr("$> ");
