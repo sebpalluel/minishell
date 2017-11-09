@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/23 16:45:28 by psebasti          #+#    #+#             */
-/*   Updated: 2017/11/09 18:53:01 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/11/09 19:01:12 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,6 @@ char		**ft_validfuncs(void)
 	validfuncs[6] = NULL;
 	return (validfuncs);
 }
-
-
 
 int			main(int argc, char **argv, char **envp)
 {

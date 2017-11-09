@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:32:06 by psebasti          #+#    #+#             */
-/*   Updated: 2017/11/09 18:54:32 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/11/09 19:32:21 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	ft_printprompt(t_sh *sh)
 	ft_putstr(ANSI_BLINK);
 }
 
-
 //int			verif_implements(t_sh *sh)
 //{
 //	FT_INIT(char**, functions, env->imp_func);
@@ -45,60 +44,9 @@ void	ft_printprompt(t_sh *sh)
 //}
 //
 
-int			ft_countcommands(char *str)
-{
-	int		count;
-
-	count = 0;
-	while (*str)
-	{
-		if (*str != ' ' && *str != '\t')
-		{
-			while (*str && *str != ' ' && *str != '\t')
-				++str;
-			++count;
-		}
-		else
-			++str;
-	}
-	return (count);
-}
-
-static void	ft_initcommands(t_sh *sh)
-{
-	char	*tmp;
-	char	*str;
-	int		i;
-	int		j;
-
-	j = -1;
-	if (!(sh->commands = (char**)malloc(sizeof(char*) * \
-					(ft_countcommands(sh->line) + 1))))
-		exit(EXIT_FAILURE);
-	str = sh->line;
-	while (*str)
-	{
-		if (*str != ' ' && *str != '\t')
-		{
-			tmp = str;
-			i = 0;
-			while (*str && *str != ' ' && *str != '\t')
-			{
-				++i;
-				++str;
-			}
-			sh->commands[++j] = ft_strsub(tmp, 0, i);
-		}
-		else
-			++str;
-	}
-	sh->commands[++j] = NULL;
-}
-
 void		ft_readline(t_sh *sh)
 {
-	ft_initcommands(sh);
-
+	sh->commands = ft_strsplitequ(sh->line, " \t");
 }
 
 void		ft_prompt(t_sh *sh)
