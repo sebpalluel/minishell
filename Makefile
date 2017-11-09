@@ -6,7 +6,7 @@
 #*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        *#
 #*                                                +#+#+#+#+#+   +#+           *#
 #*   Created: 2017/10/23 17:48:20 by psebasti          #+#    #+#             *#
-#*   Updated: 2017/11/09 12:16:22 by psebasti         ###   ########.fr       *#
+#*   Updated: 2017/11/09 17:39:05 by psebasti         ###   ########.fr       *#
 #*                                                                            *#
 #* ************************************************************************** *#
 
@@ -36,6 +36,8 @@ INCNAME		=	minishell.h \
 				minishell_define.h \
 				minishell_struct.h
 SRCNAME 	=	minishell.c \
+				env.c \
+				prompt.c
 
 SRC		= 	$(addprefix $(SRCDIR),$(SRCNAME))
 OBJ		= 	$(addprefix $(OBJDIR),$(OBJNAME))
