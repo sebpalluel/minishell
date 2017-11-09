@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:32:06 by psebasti          #+#    #+#             */
-/*   Updated: 2017/11/09 18:41:41 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/11/09 18:54:32 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int			ft_countcommands(char *str)
 static void	ft_initcommands(t_sh *sh)
 {
 	char	*tmp;
+	char	*str;
 	int		i;
 	int		j;
 
@@ -74,21 +75,22 @@ static void	ft_initcommands(t_sh *sh)
 	if (!(sh->commands = (char**)malloc(sizeof(char*) * \
 					(ft_countcommands(sh->line) + 1))))
 		exit(EXIT_FAILURE);
-	while (*sh->line)
+	str = sh->line;
+	while (*str)
 	{
-		if (*sh->line != ' ' && *sh->line != '\t')
+		if (*str != ' ' && *str != '\t')
 		{
-			tmp = sh->line;
+			tmp = str;
 			i = 0;
-			while (*sh->line && *sh->line != ' ' && *sh->line != '\t')
+			while (*str && *str != ' ' && *str != '\t')
 			{
 				++i;
-				++sh->line;
+				++str;
 			}
 			sh->commands[++j] = ft_strsub(tmp, 0, i);
 		}
 		else
-			++sh->line;
+			++str;
 	}
 	sh->commands[++j] = NULL;
 }
@@ -108,5 +110,4 @@ void		ft_prompt(t_sh *sh)
 	ft_printprompt(sh);
 	free(sh->line);
 	wait(&pid);
-	ft_putstr("\n$> ");
 }
