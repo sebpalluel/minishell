@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/23 16:45:28 by psebasti          #+#    #+#             */
-/*   Updated: 2017/11/09 17:16:01 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/11/09 17:23:59 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ char		**ft_validfuncs(void)
 	return (validfuncs);
 }
 
-char	*ft_findenv(t_list *env, char *name)
+char		*ft_findenv(t_list *env, char *name)
 {
 	while (env)
 	{
@@ -142,7 +142,7 @@ char	*ft_findenv(t_list *env, char *name)
 	return (NULL);
 }
 
-char	*ft_pathfromhome(char *cwd, char *home)
+char		*ft_pathfromhome(char *cwd, char *home)
 {
 	char	*tmp;
 	int		i;
@@ -182,9 +182,18 @@ char		*ft_getpath(t_sh *sh)
 
 void		ft_printprompt(t_sh *sh)
 {
-	ft_putstr("[minishell:");
+	ft_putstr(ANSI_RESET);
+	ft_putstr(ANSI_BOLD);
+	ft_putstr(ANSI_RED);
+	ft_putstr("minishell:");
+	ft_putstr(ANSI_RESET);
+	ft_putstr(ANSI_GREEN);
 	ft_putstr(sh->path);
-	ft_putstr("] $> ");
+	ft_putstr(ANSI_BLINK);
+	ft_putstr(ANSI_RED);
+	ft_putstr(" $> ");
+	ft_putstr(ANSI_RESET);
+	ft_putstr(ANSI_BLINK);
 }
 
 int			main(int argc, char **argv, char **envp)
