@@ -6,7 +6,7 @@
 #*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        *#
 #*                                                +#+#+#+#+#+   +#+           *#
 #*   Created: 2017/10/23 17:48:20 by psebasti          #+#    #+#             *#
-#*   Updated: 2017/11/08 11:41:03 by psebasti         ###   ########.fr       *#
+#*   Updated: 2017/11/09 12:16:22 by psebasti         ###   ########.fr       *#
 #*                                                                            *#
 #* ************************************************************************** *#
 
@@ -54,10 +54,10 @@ ifneq (,$(filter debug,$(MAKECMDGOALS)))
 	@echo "$(DEBC)IF YOU WANT TO SWITCH TO RELEASE VERSION 'make re'$(NOC)"
 	@echo "$(DEBC)⤜(ʘvʘ)⤏$(NOC)"
 	@make debug -C $(LFTDIR)
-	@$(CMP) $(FLAGS) $(DEBUG_F) -o $(NAME) -L $(LFTDIR) -L $(LIBS) $^ -o $@
+	@$(CMP) $(FLAGS) $(DEBUG_F) -o $(NAME) -L $(LFTDIR) $(LIBS) $^ -o $@
 else
 	@make -C $(LFTDIR)
-	@$(CMP) $(FLAGS) -o $(NAME) -L $(LFTDIR) -L $(LIBS) $^ -o $@
+	@$(CMP) $(FLAGS) -o $(NAME) -L $(LFTDIR) $(LIBS) $^ -o $@
 	@echo "$(OKC)$(NAME):\t\t$(NAME) READY$(NOC)"
 	@echo "$(OKC)¯\_ツ_/¯$(NOC)"
 endif

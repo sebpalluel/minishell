@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/23 16:45:28 by psebasti          #+#    #+#             */
-/*   Updated: 2017/11/08 12:42:37 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/11/09 12:13:42 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,19 @@ t_list		*ft_newenv(char *str)
 {
 	t_list	*env;
 	char	*tmp;
-	t_env	*env_s;
 
 	if (!(env = (t_list*)malloc(sizeof(t_env))) || \
-			!(env_s = (t_env*)ft_memalloc(sizeof(t_env))))
+			!(env->content = (t_env*)ft_memalloc(sizeof(t_env))))
 		exit(EXIT_FAILURE);
-	env_s->env_str = ft_strdup(str);
-	env_s->name = ft_strsub(str, 0, ft_strchr(str, '=') - str);
+	ENV(env)->env_str = ft_strdup(str);
+	ENV(env)->name = ft_strsub(str, 0, ft_strchr(str, '=') - str);
 	tmp = ft_strchr(str, '=') + 1;
 	if (!*tmp)
-		env_s->value = ft_strdup("");
+		ENV(env)->value = ft_strdup("");
 	else
-		env_s->value = ft_strdup(tmp);
+		ENV(env)->value = ft_strdup(tmp);
 	env->next = NULL;
 	printf("env str %s\n", str);
-	env->content = env_s;
 	return (env);
 }
 
@@ -51,7 +49,10 @@ int			main(int argc, char **argv, char **envp)
 	t_list	*env;
 
 	env = ft_envlist(envp);
-	init_implement_functions(env->content);
+	printf("env str after %s\n", ENV(env)->env_str);
+	//init_implement_functions(env->content);
+	argc = 0;
+	argv = NULL;
 	while (42)
 	{
 		//init_env(&(data->env), envp, NULL);
