@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:32:06 by psebasti          #+#    #+#             */
-/*   Updated: 2017/11/15 12:16:14 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/11/15 15:56:22 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,18 +44,45 @@ void	ft_printprompt(t_sh *sh)
 //}
 //
 
+char		ft_builtinfuncs(t_sh *sh)
+{
+	int		i;
+
+	i = -1;
+	while (++i < NUMBUILTIN - 1)
+	{
+		//printf("command 0 %s, validfuncs %s\n", sh->commands[0], sh->validfuncs[i]);
+		if (ft_strcmp(sh->commands[0], sh->validfuncs[i]) == 0)
+		{
+			sh->builtins[i]((void *)sh);
+			return (OK);
+		}
+	}
+	return (ERROR);
+}
+
 void		ft_readline(t_sh *sh)
 {
-	sh->commands = ft_strsplitequ(sh->line, " \t;");
+	char	**cmds_semi;
+	int		i;
+
+	cmds_semi = ft_strsplit(sh->line, ';');
+	i = -1;
+	while (cmds_semi[++i])
+	{
+		sh->commands = ft_strsplitequ(cmds_semi[i], " \t");
+		ft_builtinfuncs(sh);
+		if (sh->commands)
+			ft_tabfree((void **)sh->commands);
+	}
+	ft_tabfree((void **)cmds_semi);
 }
 
 void		ft_prompt(t_sh *sh)
 {
-	int		pid;
-
 	if (sh->line > 0)
 		ft_readline(sh);
 	ft_printprompt(sh);
 	free(sh->line);
-	wait(&pid);
+	wait(&sh->pid);
 }

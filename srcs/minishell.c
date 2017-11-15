@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/23 16:45:28 by psebasti          #+#    #+#             */
-/*   Updated: 2017/11/09 19:01:12 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/11/15 15:27:00 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char		**ft_validfuncs(void)
 {
 	char	**validfuncs;
 
-	if (!(validfuncs = (char**)malloc(sizeof(char*) * 7)))
+	if (!(validfuncs = (char**)malloc(sizeof(char*) * NUMBUILTIN)))
 		return (NULL);
 	validfuncs[0] = ft_strdup("echo");
 	validfuncs[1] = ft_strdup("cd");
@@ -52,6 +52,22 @@ char		**ft_validfuncs(void)
 	return (validfuncs);
 }
 
+builtinfunc		*ft_validfuncsptr(void)
+{
+	builtinfunc	*builtins;
+
+	if (!(builtins = malloc(sizeof(builtinfunc) * NUMBUILTIN)))
+		return (NULL);
+	builtins[0] = ft_echo;
+	builtins[1] = ft_cd;
+	builtins[2] = ft_setenv;
+	builtins[3] = ft_unsetenv;
+	builtins[4] = ft_env;
+	builtins[5] = ft_exit;
+	builtins[6] = NULL;
+	return (builtins);
+}
+
 int			main(int argc, char **argv, char **envp)
 {
 	t_sh	*sh;
@@ -60,6 +76,7 @@ int			main(int argc, char **argv, char **envp)
 			!(sh->env = ft_envlist(envp)) || \
 			!(sh->bindirs = ft_bindirs(envp)) || \
 			!(sh->validfuncs = ft_validfuncs()) || \
+			!(sh->builtins = ft_validfuncsptr()) || \
 			!(sh->path = ft_getpath(sh)))
 		return (EXIT_FAILURE);
 	argc = 0;
