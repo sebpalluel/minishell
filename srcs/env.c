@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:33:46 by psebasti          #+#    #+#             */
-/*   Updated: 2017/11/09 17:36:32 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/11/15 19:47:36 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,4 +90,28 @@ t_list			*ft_envlist(char **envp)
 	while(envp[++env_num])
 		ft_lstaddend(&env, ft_newenv(envp[env_num]));
 	return(env);
+}
+
+char		**ft_getenv(t_sh *sh)
+{
+	char	**envtab;
+	char	*str;
+	int		i;
+	t_list	*tmp;
+
+	envtab = (char **)malloc(sizeof(char*) * ft_lstlen(sh->env));
+	tmp = sh->env;
+	i = -1;
+	while (tmp)
+	{
+		str = ft_strnew(0);
+		str = ft_strjoinfree(str, ENVSTRUCT(tmp)->name, 1);
+		str = ft_strjoinfree(str, "=", 1);
+		str = ft_strjoinfree(str, ENVSTRUCT(tmp)->value, 1);
+		envtab[++i] = ft_strdup(str);
+		free(str);
+		tmp = tmp->next;
+	}
+	envtab[i] = NULL;
+	return (envtab);
 }

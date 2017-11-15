@@ -6,11 +6,13 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:32:06 by psebasti          #+#    #+#             */
-/*   Updated: 2017/11/15 15:56:22 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/11/15 20:07:03 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+pid_t	pid;
 
 void	ft_printprompt(t_sh *sh)
 {
@@ -28,30 +30,13 @@ void	ft_printprompt(t_sh *sh)
 	ft_putstr(ANSI_BLINK);
 }
 
-//int			verif_implements(t_sh *sh)
-//{
-//	FT_INIT(char**, functions, env->imp_func);
-//	FT_INIT(int, i, 0);
-//	while (functions[i])
-//	{
-//		if (ft_strlen(cmd) == 0)
-//			return (0);
-//		if (!ft_strcmp(cmd, functions[i]))
-//			return (1);
-//		i++;
-//	}
-//	return (0);
-//}
-//
-
-char		ft_builtinfuncs(t_sh *sh)
+static int	ft_builtinfuncs(t_sh *sh)
 {
 	int		i;
 
 	i = -1;
 	while (++i < NUMBUILTIN - 1)
 	{
-		//printf("command 0 %s, validfuncs %s\n", sh->commands[0], sh->validfuncs[i]);
 		if (ft_strcmp(sh->commands[0], sh->validfuncs[i]) == 0)
 		{
 			sh->builtins[i]((void *)sh);
@@ -59,6 +44,87 @@ char		ft_builtinfuncs(t_sh *sh)
 		}
 	}
 	return (ERROR);
+}
+
+
+void		sig_hand(int sig)
+{
+	if (sig == SIGINT)
+	{
+		kill(pid, sig);
+		ft_putchar('\n');
+	}
+}
+
+void	ft_getbinary(char *path, t_sh *sh)
+{
+	char	**envi;
+
+	envi = ft_getenv(sh);
+	pid = fork();
+	if (pid > 0)
+	{
+		signal(SIGINT, sig_hand);
+		wait(NULL);
+		signal(SIGINT, SIG_DFL);
+	}
+	else if (pid == 0)
+	{
+		execve(path, sh->commands, envi);
+		exit(EXIT_SUCCESS);
+	}
+	pid = -1;
+	free(path);
+}
+
+int			ft_checkaccess(char *path)
+{
+	struct stat statpath;
+
+	lstat(path, &statpath);
+	if (access(path, F_OK) != 0)
+		return (0);
+	else if (access(path, X_OK) != 0 || !S_ISDIR(statpath.st_mode))
+		return (0);
+	else if (!S_ISDIR(statpath.st_mode))
+		return (0);
+	return (1);
+}
+
+static int	ft_elsefuncs(t_sh *sh)
+{
+	char	*command;
+	int		i;
+
+	//if (is_absolute(sh))
+	//	return (1);
+	//if (!(content = find_env(sh, "PATH")))
+	//	return (0);
+	//tmp = ft_strsplit(content, ':');
+	//content = sh->commands[0];
+	//if (ft_strrchr(content, '/'))
+	//	content = ft_strrchr(content, '/') + 1;
+	//i = -1;
+	//while (tmp[++i])
+	//{
+	//	if (check_path(content, tmp[i]))
+	//	{
+	//		return (1);
+	//	}
+	//}
+	i = -1;
+	while (sh->bindirs && sh->bindirs[++i])
+	{
+		if (ft_checkaccess(sh->bindirs[i]))
+		{
+			command = ft_strjoin(sh->bindirs[i], "/");
+			command = ft_strjoin(command, sh->commands[0]);
+			ft_getbinary(command, sh);
+			if (pid != -1)
+				return (1);
+		}
+	}
+	return (0);
 }
 
 void		ft_readline(t_sh *sh)
@@ -71,7 +137,15 @@ void		ft_readline(t_sh *sh)
 	while (cmds_semi[++i])
 	{
 		sh->commands = ft_strsplitequ(cmds_semi[i], " \t");
-		ft_builtinfuncs(sh);
+		if (ft_builtinfuncs(sh) == OK)
+			;
+		else if (ft_elsefuncs(sh))
+			;
+		else
+		{
+			ft_putstr_fd(sh->commands[0], 2);
+			ft_putendl_fd(": Command not found.", 2);
+		}
 		if (sh->commands)
 			ft_tabfree((void **)sh->commands);
 	}
