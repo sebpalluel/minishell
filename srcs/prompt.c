@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:32:06 by psebasti          #+#    #+#             */
-/*   Updated: 2017/11/15 20:07:03 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/11/16 17:29:58 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,26 +56,74 @@ void		sig_hand(int sig)
 	}
 }
 
-void	ft_getbinary(char *path, t_sh *sh)
+int			ft_getbinary(char *path, t_sh *sh)
 {
 	char	**envi;
+	int		exec_ret;
+	int		status;
+	int		es;
 
 	envi = ft_getenv(sh);
-	pid = fork();
+	//printf("pid %d\n", pid);
 	if (pid > 0)
 	{
 		signal(SIGINT, sig_hand);
-		wait(NULL);
+		printf("wait %d\n",wait(NULL));
 		signal(SIGINT, SIG_DFL);
 	}
 	else if (pid == 0)
 	{
-		execve(path, sh->commands, envi);
-		exit(EXIT_SUCCESS);
+		errno = 0;
+	printf("cmd %s, commands %s\n", path, sh->commands[0]);
+		exec_ret = execv(path, sh->commands);
+		printf("execv_ret %d errno %d\n",exec_ret, errno);
+		exit(EXIT_FAILURE);
 	}
+    if ( waitpid(pid, &status, 0) == -1 ) {
+        perror("waitpid failed");
+       // return EXIT_FAILURE;
+    }
+    if (WIFEXITED(status) ) {
+		es = 0;
+        es = WEXITSTATUS(status);
+        printf("exit status was %d\n", es);
+    }
 	pid = -1;
 	free(path);
+	return (0);
 }
+
+//int runcmd(char *cmd, t_sh *sh)
+//{
+//  pid_t child_pid;
+//  pid_t	tpid;
+//  int child_status;
+//
+//  child_pid = fork();
+//  if(child_pid == 0) {
+//    /* This is done by the child process. */
+//
+//	printf("cmd %s, commands %s\n", cmd, sh->commands[0]);
+//    execv(cmd, sh->commands);
+//
+//    /* If execv returns, it must have failed. */
+//
+//    printf("Unknown command\n");
+//    exit(0);
+//  }
+//  else {
+//     /* This is run by the parent.  Wait for the child
+//        to terminate. */
+//
+//     do {
+//       tpid = wait(&child_status);
+//       if(tpid != child_pid) printf("process terminated %d\n",tpid);
+//     } while(tpid != child_pid);
+//
+//     return child_status;
+//  }
+//	free(cmd);
+//}
 
 int			ft_checkaccess(char *path)
 {
@@ -95,33 +143,22 @@ static int	ft_elsefuncs(t_sh *sh)
 {
 	char	*command;
 	int		i;
+	size_t	had_command;
 
-	//if (is_absolute(sh))
-	//	return (1);
-	//if (!(content = find_env(sh, "PATH")))
-	//	return (0);
-	//tmp = ft_strsplit(content, ':');
-	//content = sh->commands[0];
-	//if (ft_strrchr(content, '/'))
-	//	content = ft_strrchr(content, '/') + 1;
-	//i = -1;
-	//while (tmp[++i])
-	//{
-	//	if (check_path(content, tmp[i]))
-	//	{
-	//		return (1);
-	//	}
-	//}
 	i = -1;
 	while (sh->bindirs && sh->bindirs[++i])
 	{
 		if (ft_checkaccess(sh->bindirs[i]))
 		{
+			pid = fork();
 			command = ft_strjoin(sh->bindirs[i], "/");
 			command = ft_strjoin(command, sh->commands[0]);
-			ft_getbinary(command, sh);
+			had_command = ft_getbinary(command, sh);
 			if (pid != -1)
+			{
+				printf("had_command\n");
 				return (1);
+			}
 		}
 	}
 	return (0);
@@ -158,5 +195,5 @@ void		ft_prompt(t_sh *sh)
 		ft_readline(sh);
 	ft_printprompt(sh);
 	free(sh->line);
-	wait(&sh->pid);
+	//wait(&sh->pid);
 }

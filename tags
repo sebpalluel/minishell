@@ -1,0 +1,27 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+CMP	Makefile	/^CMP			=	gcc$/;"	m
+DEBC	Makefile	/^DEBC		=	\\033[36m$/;"	m
+DEBUG_F	Makefile	/^DEBUG_F		=	-g3 -fsanitize=address$/;"	m
+ERC	Makefile	/^ERC			=	\\033[31m$/;"	m
+EXT	Makefile	/^EXT			=	Makefile$/;"	m
+FLAGS	Makefile	/^FLAGS		=	-Wall -Wextra -Werror $/;"	m
+INC	Makefile	/^INC		= 	$(addprefix -I,$(INCDIR),$(INCNAME))$/;"	m
+INCDIR	Makefile	/^INCDIR		=	.\/includes\/$/;"	m
+INCNAME	Makefile	/^INCNAME		=	minishell.h \\$/;"	m
+LFTDIR	Makefile	/^LFTDIR		=	.\/libft\/$/;"	m
+LIBS	Makefile	/^LIBS		=	-lft -framework OpenGL -framework AppKit$/;"	m
+NAME	Makefile	/^NAME		=	minishell$/;"	m
+NOC	Makefile	/^NOC			=	\\033[0m$/;"	m
+OBJ	Makefile	/^OBJ		= 	$(addprefix $(OBJDIR),$(OBJNAME))$/;"	m
+OBJDIR	Makefile	/^OBJDIR		=	.\/obj\/$/;"	m
+OBJNAME	Makefile	/^OBJNAME		=	$(SRCNAME:.c=.o)$/;"	m
+OKC	Makefile	/^OKC			=	\\033[32m$/;"	m
+SRC	Makefile	/^SRC		= 	$(addprefix $(SRCDIR),$(SRCNAME))$/;"	m
+SRCDIR	Makefile	/^SRCDIR		=	.\/srcs\/$/;"	m
+SRCNAME	Makefile	/^SRCNAME 	=	minishell.c \\$/;"	m
+WAC	Makefile	/^WAC			=	\\033[33m$/;"	m
