@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/23 17:04:51 by psebasti          #+#    #+#             */
-/*   Updated: 2017/11/15 14:06:22 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/11/23 18:52:49 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ typedef struct		s_sh
 	char			*line;
 	char			*path;
 	char			**commands;
-	int				pid;
 }					t_sh;
 
 #endif

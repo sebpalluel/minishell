@@ -6,13 +6,13 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:32:06 by psebasti          #+#    #+#             */
-/*   Updated: 2017/11/16 17:29:58 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/11/23 18:58:39 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-pid_t	pid;
+pid_t	father;
 
 void	ft_printprompt(t_sh *sh)
 {
@@ -51,7 +51,7 @@ void		sig_hand(int sig)
 {
 	if (sig == SIGINT)
 	{
-		kill(pid, sig);
+		kill(father, sig);
 		ft_putchar('\n');
 	}
 }
@@ -59,38 +59,51 @@ void		sig_hand(int sig)
 int			ft_getbinary(char *path, t_sh *sh)
 {
 	char	**envi;
-	int		exec_ret;
 	int		status;
 	int		es;
 
 	envi = ft_getenv(sh);
-	//printf("pid %d\n", pid);
-	if (pid > 0)
-	{
-		signal(SIGINT, sig_hand);
-		printf("wait %d\n",wait(NULL));
-		signal(SIGINT, SIG_DFL);
-	}
-	else if (pid == 0)
+	es = 0;
+	if (father == 0)
 	{
 		errno = 0;
-	printf("cmd %s, commands %s\n", path, sh->commands[0]);
-		exec_ret = execv(path, sh->commands);
-		printf("execv_ret %d errno %d\n",exec_ret, errno);
-		exit(EXIT_FAILURE);
+		es = execve(path, sh->commands, envi);
+		exit(es);
 	}
-    if ( waitpid(pid, &status, 0) == -1 ) {
-        perror("waitpid failed");
-       // return EXIT_FAILURE;
-    }
-    if (WIFEXITED(status) ) {
-		es = 0;
-        es = WEXITSTATUS(status);
-        printf("exit status was %d\n", es);
-    }
-	pid = -1;
+	if (father > 0) 
+	{
+		if (waitpid(father, &status, 0) > 0) 
+		{
+			if (WEXITSTATUS(status) != 255)
+				return (OK);
+			else if (WEXITSTATUS(status) == 127)
+				printf("execve() failed\n");
+		} 
+		else 
+			printf("waitpid() failed\n");
+	} 
+	else {
+		printf("failed to fork()\n");
+	}
+	//else
+	//{
+	//	signal(SIGINT, sig_hand);
+	//	if ((exec_ret = waitpid(father, &status, WUNTRACED | WCONTINUED)) == -1)
+	//	{
+	//		perror("waitpid failed");
+	//		return EXIT_FAILURE;
+	//	}
+	//	signal(SIGINT, SIG_DFL);
+	//	es = 0;
+	//	es = WIFEXITED(status);
+	//	printf("exited %d, status %d\n", es, status);
+	//	es = 0;
+	//	es = WEXITSTATUS(status);
+	//	printf("exit status was %d\n", es);
+	//}
+	father = -1;
 	free(path);
-	return (0);
+	return (ERROR);
 }
 
 //int runcmd(char *cmd, t_sh *sh)
@@ -143,25 +156,23 @@ static int	ft_elsefuncs(t_sh *sh)
 {
 	char	*command;
 	int		i;
-	size_t	had_command;
+	size_t	had_process;
 
 	i = -1;
+	had_process = ERROR;
 	while (sh->bindirs && sh->bindirs[++i])
 	{
 		if (ft_checkaccess(sh->bindirs[i]))
 		{
-			pid = fork();
+			father = fork();
 			command = ft_strjoin(sh->bindirs[i], "/");
 			command = ft_strjoin(command, sh->commands[0]);
-			had_command = ft_getbinary(command, sh);
-			if (pid != -1)
-			{
-				printf("had_command\n");
-				return (1);
-			}
+			had_process = ft_getbinary(command, sh);
+			if (had_process == OK)
+				return (OK);
 		}
 	}
-	return (0);
+	return (ERROR);
 }
 
 void		ft_readline(t_sh *sh)
@@ -176,9 +187,7 @@ void		ft_readline(t_sh *sh)
 		sh->commands = ft_strsplitequ(cmds_semi[i], " \t");
 		if (ft_builtinfuncs(sh) == OK)
 			;
-		else if (ft_elsefuncs(sh))
-			;
-		else
+		else if (ft_elsefuncs(sh) != OK)
 		{
 			ft_putstr_fd(sh->commands[0], 2);
 			ft_putendl_fd(": Command not found.", 2);
@@ -195,5 +204,4 @@ void		ft_prompt(t_sh *sh)
 		ft_readline(sh);
 	ft_printprompt(sh);
 	free(sh->line);
-	//wait(&sh->pid);
 }
