@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:33:46 by psebasti          #+#    #+#             */
-/*   Updated: 2017/11/15 19:47:36 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/11/24 16:58:25 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ static char		*ft_pathfromhome(char *cwd, char *home)
 		return (ft_strdup("~"));
 	home = ft_strsub(cwd + i + 1, 0, ft_strlen(cwd) - i - 1);
 	tmp = ft_strjoin("~", home);
+	free(home);
 	return (tmp);
 }
 
@@ -57,7 +58,6 @@ char			*ft_getpath(t_sh *sh)
 		return(ft_strdup(cwd));
 	}
 	path = ft_pathfromhome(cwd, home);
-	free(home);
 	return(path);
 }
 
@@ -99,13 +99,15 @@ char		**ft_getenv(t_sh *sh)
 	int		i;
 	t_list	*tmp;
 
-	envtab = (char **)malloc(sizeof(char*) * ft_lstlen(sh->env));
+	if (sh->envi)
+		ft_tabfree((void **)sh->envi);
+	if (!(envtab = (char **)malloc(sizeof(char*) * ft_lstlen(sh->env))))
+		return (NULL);
 	tmp = sh->env;
 	i = -1;
 	while (tmp)
 	{
-		str = ft_strnew(0);
-		str = ft_strjoinfree(str, ENVSTRUCT(tmp)->name, 1);
+		str = ft_strdup(ENVSTRUCT(tmp)->name);
 		str = ft_strjoinfree(str, "=", 1);
 		str = ft_strjoinfree(str, ENVSTRUCT(tmp)->value, 1);
 		envtab[++i] = ft_strdup(str);

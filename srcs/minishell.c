@@ -6,9 +6,10 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/23 16:45:28 by psebasti          #+#    #+#             */
-/*   Updated: 2017/11/15 16:57:04 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/11/24 17:38:25 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../includes/minishell.h"
 
@@ -68,6 +69,14 @@ builtinfunc		*ft_validfuncsptr(void)
 	return (builtins);
 }
 
+int			ft_error(char *command, const char *error, int r_val)
+{
+	ft_putstr_fd("minishell:", 2);
+	ft_putstr_fd(command, 2);
+	ft_putendl_fd(error, 2);
+	return(r_val);
+}
+
 int			main(int argc, char **argv, char **envp)
 {
 	t_sh	*sh;
@@ -83,7 +92,8 @@ int			main(int argc, char **argv, char **envp)
 	argv = NULL;
 	ft_printprompt(sh);
 	while (get_next_line(0, &sh->line) >= 0)
-		ft_prompt(sh);
+		if (ft_prompt(sh) != OK)
+			return (EXIT_FAILURE);
 	//if (env->imp_func)
 	//	free_env(env->imp_func);
 	//if (env->bindirs)
@@ -91,5 +101,5 @@ int			main(int argc, char **argv, char **envp)
 	//free(env);
 	//if (argc || argv)
 	//	return (1);
-	return (0);
+	return (EXIT_SUCCESS);
 }

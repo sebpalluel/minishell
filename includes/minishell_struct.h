@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/23 17:04:51 by psebasti          #+#    #+#             */
-/*   Updated: 2017/11/23 18:52:49 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/11/24 16:12:03 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,11 @@ typedef struct		s_sh
 	t_list			*env;
 	char			**bindirs;
 	char			**validfuncs;
+	char			**envi;
 	builtinfunc		*builtins;
 	char			*line;
 	char			*path;
+	pid_t			father;
 	char			**commands;
 }					t_sh;
 
