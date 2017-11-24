@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/15 14:10:14 by psebasti          #+#    #+#             */
-/*   Updated: 2017/11/15 15:21:41 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/11/24 18:11:57 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,9 @@ void	ft_env(void *a)
 
 void	ft_exit(void *a)
 {
-	if (a)
-		printf("exit\n");
+	t_sh *sh;
+
+	sh = (t_sh *)a;
+	//clean func
+	exit(EXIT_SUCCESS);
 }

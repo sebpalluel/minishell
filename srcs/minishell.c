@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/23 16:45:28 by psebasti          #+#    #+#             */
-/*   Updated: 2017/11/24 17:38:25 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/11/24 18:20:28 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,10 @@ builtinfunc		*ft_validfuncsptr(void)
 	return (builtins);
 }
 
-int			ft_error(char *command, const char *error, int r_val)
+int				ft_error(char *shell, char *command, const char *error, \
+		int r_val)
 {
-	ft_putstr_fd("minishell:", 2);
+	ft_putstr_fd(shell, 2);
 	ft_putstr_fd(command, 2);
 	ft_putendl_fd(error, 2);
 	return(r_val);
