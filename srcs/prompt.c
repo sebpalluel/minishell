@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:32:06 by psebasti          #+#    #+#             */
-/*   Updated: 2017/11/23 18:58:39 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/11/24 11:59:18 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,69 +74,19 @@ int			ft_getbinary(char *path, t_sh *sh)
 	{
 		if (waitpid(father, &status, 0) > 0) 
 		{
+			if (WEXITSTATUS(status) == 127)
+				printf("execve() failed\n");
 			if (WEXITSTATUS(status) != 255)
 				return (OK);
-			else if (WEXITSTATUS(status) == 127)
-				printf("execve() failed\n");
-		} 
-		else 
+		}
+		else
 			printf("waitpid() failed\n");
-	} 
-	else {
-		printf("failed to fork()\n");
 	}
-	//else
-	//{
-	//	signal(SIGINT, sig_hand);
-	//	if ((exec_ret = waitpid(father, &status, WUNTRACED | WCONTINUED)) == -1)
-	//	{
-	//		perror("waitpid failed");
-	//		return EXIT_FAILURE;
-	//	}
-	//	signal(SIGINT, SIG_DFL);
-	//	es = 0;
-	//	es = WIFEXITED(status);
-	//	printf("exited %d, status %d\n", es, status);
-	//	es = 0;
-	//	es = WEXITSTATUS(status);
-	//	printf("exit status was %d\n", es);
-	//}
-	father = -1;
+	else
+		printf("failed to fork()\n");
 	free(path);
 	return (ERROR);
 }
-
-//int runcmd(char *cmd, t_sh *sh)
-//{
-//  pid_t child_pid;
-//  pid_t	tpid;
-//  int child_status;
-//
-//  child_pid = fork();
-//  if(child_pid == 0) {
-//    /* This is done by the child process. */
-//
-//	printf("cmd %s, commands %s\n", cmd, sh->commands[0]);
-//    execv(cmd, sh->commands);
-//
-//    /* If execv returns, it must have failed. */
-//
-//    printf("Unknown command\n");
-//    exit(0);
-//  }
-//  else {
-//     /* This is run by the parent.  Wait for the child
-//        to terminate. */
-//
-//     do {
-//       tpid = wait(&child_status);
-//       if(tpid != child_pid) printf("process terminated %d\n",tpid);
-//     } while(tpid != child_pid);
-//
-//     return child_status;
-//  }
-//	free(cmd);
-//}
 
 int			ft_checkaccess(char *path)
 {
@@ -156,10 +106,8 @@ static int	ft_elsefuncs(t_sh *sh)
 {
 	char	*command;
 	int		i;
-	size_t	had_process;
 
 	i = -1;
-	had_process = ERROR;
 	while (sh->bindirs && sh->bindirs[++i])
 	{
 		if (ft_checkaccess(sh->bindirs[i]))
@@ -167,8 +115,7 @@ static int	ft_elsefuncs(t_sh *sh)
 			father = fork();
 			command = ft_strjoin(sh->bindirs[i], "/");
 			command = ft_strjoin(command, sh->commands[0]);
-			had_process = ft_getbinary(command, sh);
-			if (had_process == OK)
+			if (ft_getbinary(command, sh) == OK)
 				return (OK);
 		}
 	}
@@ -189,8 +136,9 @@ void		ft_readline(t_sh *sh)
 			;
 		else if (ft_elsefuncs(sh) != OK)
 		{
+			ft_putendl_fd("minishell:", 2);
 			ft_putstr_fd(sh->commands[0], 2);
-			ft_putendl_fd(": Command not found.", 2);
+			ft_putendl_fd(": command not found", 2);
 		}
 		if (sh->commands)
 			ft_tabfree((void **)sh->commands);
