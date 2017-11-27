@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/23 17:01:42 by psebasti          #+#    #+#             */
-/*   Updated: 2017/11/24 18:41:39 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/11/27 17:29:39 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,12 @@
 # include "minishell_define.h"
 
 t_list			*ft_envlist(char **envp);
+void			ft_editenv(t_list *env, char *name, char *value);
 int				ft_error(char *shell, char *command, const char *error, \
 		int r_val);
 char			*ft_getpath(t_sh *sh);
 char			*ft_findenv(t_list *env, char *name);
+t_list			*ft_searchenv(t_list *env, char *name);
 int				ft_prompt(t_sh *sh);
 void			ft_printprompt(t_sh *sh);
 char			**ft_getenv(t_sh *sh);

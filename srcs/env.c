@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:33:46 by psebasti          #+#    #+#             */
-/*   Updated: 2017/11/24 16:58:25 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/11/27 18:12:13 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,26 @@ char			*ft_findenv(t_list *env, char *name)
 		if (!ft_strcmp(ENVSTRUCT(env)->name, name))
 			return (ENVSTRUCT(env)->value);
 		env = env->next;
+	}
+	return (NULL);
+}
+
+t_list			*ft_searchenv(t_list *env, char *name)
+{
+	t_list		*list;
+	char		*env_arg;
+
+	list = env;
+	while (list)
+	{
+		env_arg = ft_strjoin("$", ENVSTRUCT(list)->name);
+		if (ft_strcmp(name, env_arg) == 0)
+		{
+			free(env_arg);
+			return (list);
+		}
+		free(env_arg);
+		list = list->next;
 	}
 	return (NULL);
 }
@@ -92,12 +112,12 @@ t_list			*ft_envlist(char **envp)
 	return(env);
 }
 
-char		**ft_getenv(t_sh *sh)
+char			**ft_getenv(t_sh *sh)
 {
-	char	**envtab;
-	char	*str;
-	int		i;
-	t_list	*tmp;
+	char		**envtab;
+	char		*str;
+	int			i;
+	t_list		*tmp;
 
 	if (sh->envi)
 		ft_tabfree((void **)sh->envi);
@@ -116,4 +136,25 @@ char		**ft_getenv(t_sh *sh)
 	}
 	envtab[i] = NULL;
 	return (envtab);
+}
+
+void			ft_editenv(t_list *env, char *name, char *value)
+{
+	char		*tmp;
+	t_list		*list;
+
+	list = ft_searchenv(env, name);
+	tmp = NULL;
+	if (list == NULL)
+	{
+		tmp = ft_strjoin(name, "=");
+		tmp = ft_strjoinfree(tmp, value, 1);
+		ft_lstaddend(&env, ft_newenv(tmp));
+		free(tmp);
+	}
+	else
+	{
+		free(ENVSTRUCT(list)->value);
+		ENVSTRUCT(list)->value = ft_strdup(value);
+	}
 }
