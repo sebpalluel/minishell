@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:33:46 by psebasti          #+#    #+#             */
-/*   Updated: 2017/11/30 11:20:24 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/11/30 16:51:29 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_list			*ft_searchenv(t_list *env, char *name)
 	list = env;
 	while (list)
 	{
-		if (ft_strcmp(name, ENVSTRUCT(list)->name) == OK)
+		if (ft_strcmp(name, ENVSTRUCT(list)->name) == 0)
 			return (list);
 		list = list->next;
 	}
@@ -55,7 +55,7 @@ char			*ft_getpath(t_sh *sh)
 	home = NULL;
 	if (!(cwd = getcwd(buff, 2048)))
 		return(NULL);
-	if (!(home = ENVSTRUCT(ft_searchenv(sh->env, "$HOME"))->value))
+	if (!(home = ENVSTRUCT(ft_searchenv(sh->env, "HOME"))->value))
 	{
 		free(cwd);
 		return(ft_strdup(cwd));

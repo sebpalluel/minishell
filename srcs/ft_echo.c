@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/27 15:20:33 by psebasti          #+#    #+#             */
-/*   Updated: 2017/11/30 11:19:46 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/11/30 16:52:36 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,18 @@
 
 static void	ft_echoenv(char *str, t_list *env, t_bool newline)
 {
-	char	*tmp;
+	t_list	*tmp;
 
-	tmp = ENVSTRUCT(ft_searchenv(env, str + 1))->value;
-	if (newline)
-		ft_putstr(tmp);
+	tmp = ft_searchenv(env, str + 1);
+	if (tmp)
+	{
+		if (newline)
+			ft_putstr(ENVSTRUCT(tmp)->value);
+		else
+			ft_putendl(ENVSTRUCT(tmp)->value);
+	}
 	else
-		ft_putendl(tmp);
+		ft_putendl("");
 }
 
 static void	ft_echoprintcmds(char **cmds, t_sh *sh, t_bool newline)
