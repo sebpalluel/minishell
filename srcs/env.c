@@ -6,38 +6,21 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:33:46 by psebasti          #+#    #+#             */
-/*   Updated: 2017/11/27 18:12:13 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/11/30 11:20:24 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char			*ft_findenv(t_list *env, char *name)
-{
-	while (env)
-	{
-		if (!ft_strcmp(ENVSTRUCT(env)->name, name))
-			return (ENVSTRUCT(env)->value);
-		env = env->next;
-	}
-	return (NULL);
-}
-
 t_list			*ft_searchenv(t_list *env, char *name)
 {
 	t_list		*list;
-	char		*env_arg;
 
 	list = env;
 	while (list)
 	{
-		env_arg = ft_strjoin("$", ENVSTRUCT(list)->name);
-		if (ft_strcmp(name, env_arg) == 0)
-		{
-			free(env_arg);
+		if (ft_strcmp(name, ENVSTRUCT(list)->name) == OK)
 			return (list);
-		}
-		free(env_arg);
 		list = list->next;
 	}
 	return (NULL);
@@ -72,7 +55,7 @@ char			*ft_getpath(t_sh *sh)
 	home = NULL;
 	if (!(cwd = getcwd(buff, 2048)))
 		return(NULL);
-	if (!(home = ft_findenv(sh->env, "HOME")))
+	if (!(home = ENVSTRUCT(ft_searchenv(sh->env, "$HOME"))->value))
 	{
 		free(cwd);
 		return(ft_strdup(cwd));

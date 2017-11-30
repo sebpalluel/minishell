@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/27 15:20:33 by psebasti          #+#    #+#             */
-/*   Updated: 2017/11/27 15:21:23 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/11/30 11:19:46 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	ft_echoenv(char *str, t_list *env, t_bool newline)
 {
 	char	*tmp;
 
-	tmp = ft_findenv(env, str + 1);
+	tmp = ENVSTRUCT(ft_searchenv(env, str + 1))->value;
 	if (newline)
 		ft_putstr(tmp);
 	else
