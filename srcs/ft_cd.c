@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/27 15:21:44 by psebasti          #+#    #+#             */
-/*   Updated: 2017/11/30 11:18:45 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/11/30 11:22:34 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,6 @@ int			ft_cdmove(t_sh *sh, char *path, char **cmds)
 
 int			ft_cdprev(t_sh *sh)
 {
-		chdir(ft_cherche_env("$OLDPWD")->valeur);
-		ft_stockage_env("----tmp", ft_cherche_env("$PWD")->valeur);
-		ft_stockage_env("PWD", ft_cherche_env("$OLDPWD")->valeur);
-		ft_stockage_env("OLDPWD", ft_cherche_env("$----tmp")->valeur);
-		ft_suppr_env("----tmp");
 	if (chdir(ENVSTRUCT(ft_searchenv(sh->env, "$OLDPWD"))->value) == -1)
 			ft_error(SHELL, "cd :", " OLDPWD not set", 0);
 	else

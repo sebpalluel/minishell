@@ -6,57 +6,34 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 11:12:09 by psebasti          #+#    #+#             */
-/*   Updated: 2017/11/30 11:14:50 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/11/30 15:40:57 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static void	free_liste(t_liste *lst)
+void		ft_delenvnode(void *content, size_t size)
 {
-	free(lst->nom);
-	free(lst->valeur);
-	free(lst);
+	(void)size;
+	free(((t_env*)(content))->name);
+	free(((t_env*)(content))->value);
+	free(((t_env*)(content))->env_str);
 }
 
-static void	suppr_cont_env(t_liste *tmp, t_liste *tmp2, char *nom)
+int			ft_delcmpr(void *content, void *name)
 {
-	tmp = g_env;
-	if (ft_strcmp(tmp->nom, nom) == 0)
-	{
-		tmp2 = tmp->next;
-		free_liste(tmp);
-		g_env = tmp2;
-		return ;
-	}
-	while (tmp->next && ft_strcmp(tmp->next->nom, nom))
-		tmp = tmp->next;
-	if (tmp->next->next)
-	{
-		tmp2 = tmp->next->next;
-		free_liste(tmp->next);
-		tmp->next = tmp2;
-	}
-	else
-	{
-		free_liste(tmp->next);
-		tmp->next = NULL;
-	}
+	return(ft_strcmp(((t_env*)(content))->name, name));
 }
 
-void		ft_delenvelem(t_sh *sh, char *name)
+void		ft_delenvelem(t_list *env, char *name)
 {
 	t_list	*tmp;
 	t_list	*tmp2;
-	char	*tmp3;
 
 	tmp2 = NULL;
-	tmp3 = ft_strjoin("$", name);
-	tmp = ft_searchenv(sh->env, name);
-	free(tmp3);
-	if (tmp == NULL)
-		return (ft_erreur(name, 2));
+	if (!(tmp = ft_searchenv(env, name)))
+		ft_error("minishell - the variable", name, " doesn't exist", 0);
 	else
-		suppr_cont_env(tmp, tmp2, name);
+		ft_lstdelif(&env, name, ft_delcmpr, ft_delenvnode);
 	return ;
 }
