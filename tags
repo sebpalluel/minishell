@@ -207,7 +207,6 @@ envi	includes/minishell_struct.h	/^	char			**envi;$/;"	m	struct:s_sh
 father	includes/minishell_struct.h	/^	pid_t			father;$/;"	m	struct:s_sh
 fd	libft/includes/libft_struct.h	/^	int				fd;$/;"	m	struct:s_fd
 flags	libft/includes/libft_struct.h	/^	int				flags;$/;"	m	struct:s_fd
-free_liste	srcs/del.c	/^static void	free_liste(t_liste *lst)$/;"	f	file:
 ft_abs	libft/srcs/math/ft_abs.c	/^int		ft_abs(int a)$/;"	f
 ft_atoi	libft/srcs/stdlib/ft_atoi.c	/^int		ft_atoi(const char *str)$/;"	f
 ft_bindirs	srcs/minishell.c	/^char		**ft_bindirs(char **envp)$/;"	f
@@ -216,8 +215,7 @@ ft_bzero	libft/srcs/mem/ft_bzero.c	/^void		ft_bzero(void *s, size_t n)$/;"	f
 ft_bzerotab	libft/srcs/mem/ft_bzerotab.c	/^void		ft_bzerotab(void **tab)$/;"	f
 ft_cd	srcs/ft_cd.c	/^void			ft_cd(void *a)$/;"	f
 ft_cdhome	srcs/ft_cd.c	/^static void		ft_cdhome(t_sh *sh)$/;"	f	file:
-ft_cdmove	srcs/ft_cd.c	/^int			ft_cdmove(t_sh *sh, char *path, char **cmds)$/;"	f
-ft_cdprev	srcs/ft_cd.c	/^int			ft_cdprev(t_sh *sh)$/;"	f
+ft_cdprev	srcs/ft_cd.c	/^void		ft_cdprev(t_sh *sh)$/;"	f
 ft_checkaccess	srcs/prompt.c	/^int			ft_checkaccess(char *shell, char *path, int mode)$/;"	f
 ft_checkdigit	libft/srcs/ctype/ft_checkdigit.c	/^int			ft_checkdigit(char *str)$/;"	f
 ft_checkhexa	libft/srcs/ctype/ft_checkhexa.c	/^int					ft_checkhexa(char *str)$/;"	f
@@ -229,8 +227,8 @@ ft_colornew	libft/srcs/gfx/ft_colornew.c	/^t_color			*ft_colornew(unsigned char 
 ft_colorparse	libft/srcs/gfx/ft_colorparse.c	/^t_color		*ft_colorparse(char *arg)$/;"	f
 ft_colortohex	libft/srcs/gfx/ft_colortohex.c	/^int			ft_colortohex(t_color *col)$/;"	f
 ft_create_file	libft/srcs/fd/ft_create_file.c	/^size_t		ft_create_file(t_fd *fd, int chmod)$/;"	f
+ft_delcmpr	srcs/del.c	/^int			ft_delcmpr(void *content, void *name)$/;"	f
 ft_delenvelem	srcs/del.c	/^void		ft_delenvelem(t_list *env, char *name)$/;"	f
-ft_delenveleminlist	srcs/del.c	/^static void	ft_delenveleminlist(t_list *tmp, t_liste *tmp2, char *nom)$/;"	f	file:
 ft_delenvnode	srcs/del.c	/^void		ft_delenvnode(void *content, size_t size)$/;"	f
 ft_echo	srcs/ft_echo.c	/^void		ft_echo(void *a)$/;"	f
 ft_echoenv	srcs/ft_echo.c	/^static void	ft_echoenv(char *str, t_list *env, t_bool newline)$/;"	f	file:
@@ -281,8 +279,8 @@ ft_lstaddback	libft/srcs/list/ft_lstaddback.c	/^void		ft_lstaddback(t_list **als
 ft_lstaddend	libft/srcs/list/ft_lstaddend.c	/^void	ft_lstaddend(t_list **alst, t_list *new)$/;"	f
 ft_lstaddfront	libft/srcs/list/ft_lstaddfront.c	/^void	ft_lstaddfront(t_list **alst, t_list *new)$/;"	f
 ft_lstdel	libft/srcs/list/ft_lstdel.c	/^void	ft_lstdel(t_list **alst, void (*del)(void *, size_t))$/;"	f
-ft_lstdelif	libft/srcs/list/ft_lstdelif.c	/^void		ft_lstdelif(t_list **alst, int (*cmp)(void *, size_t), \\$/;"	f
-ft_lstdelif2	libft/srcs/list/ft_lstdelif.c	/^static void	ft_lstdelif2(t_list **list, \\$/;"	f	file:
+ft_lstdelif	libft/srcs/list/ft_lstdelif.c	/^void		ft_lstdelif(t_list **alst, void *to_cmpr, \\$/;"	f
+ft_lstdelif2	libft/srcs/list/ft_lstdelif.c	/^static void	ft_lstdelif2(t_list **list, void *to_cmpr, \\$/;"	f	file:
 ft_lstdelone	libft/srcs/list/ft_lstdelone.c	/^void	ft_lstdelone(t_list **alst, void (*del)(void *, size_t))$/;"	f
 ft_lstfree	libft/srcs/list/ft_lstfree.c	/^void		ft_lstfree(t_list **lst)$/;"	f
 ft_lstiter	libft/srcs/list/ft_lstiter.c	/^void	ft_lstiter(t_list *lst, void (*f)(t_list *elem))$/;"	f

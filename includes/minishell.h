@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/23 17:01:42 by psebasti          #+#    #+#             */
-/*   Updated: 2017/11/30 15:44:10 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/01 16:50:06 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int				ft_error(char *shell, char *command, const char *error, \
 		int r_val);
 char			*ft_getpath(t_sh *sh);
 t_list			*ft_searchenv(t_list *env, char *name);
-void			ft_delenvelem(t_list *env, char *name);
+void			ft_delenvelem(t_list **env, char *name);
 int				ft_prompt(t_sh *sh);
 void			ft_printprompt(t_sh *sh);
 char			**ft_getenv(t_sh *sh);
