@@ -7,6 +7,8 @@
 CMP	Makefile	/^CMP			=	gcc$/;"	m
 DEBC	Makefile	/^DEBC		=	\\033[36m$/;"	m
 DEBUG_F	Makefile	/^DEBUG_F		=	-g3 -fsanitize=address$/;"	m
+ENV	includes/minishell_define.h	/^# define ENV(/;"	d
+ENVSTRUCT	includes/minishell_define.h	/^# define ENVSTRUCT(/;"	d
 ERC	Makefile	/^ERC			=	\\033[31m$/;"	m
 EXT	Makefile	/^EXT			=	Makefile$/;"	m
 FLAGS	Makefile	/^FLAGS		=	-Wall -Wextra -Werror $/;"	m
@@ -15,13 +17,60 @@ INCDIR	Makefile	/^INCDIR		=	.\/includes\/$/;"	m
 INCNAME	Makefile	/^INCNAME		=	minishell.h \\$/;"	m
 LFTDIR	Makefile	/^LFTDIR		=	.\/libft\/$/;"	m
 LIBS	Makefile	/^LIBS		=	-lft -framework OpenGL -framework AppKit$/;"	m
+MINISHELL_DEFINE_H	includes/minishell_define.h	/^# define MINISHELL_DEFINE_H$/;"	d
+MINISHELL_H	includes/minishell.h	/^# define MINISHELL_H$/;"	d
+MINISHELL_STRUCT_H	includes/minishell_struct.h	/^# define MINISHELL_STRUCT_H$/;"	d
 NAME	Makefile	/^NAME		=	minishell$/;"	m
 NOC	Makefile	/^NOC			=	\\033[0m$/;"	m
+NUMBUILTIN	includes/minishell_define.h	/^# define NUMBUILTIN	/;"	d
 OBJ	Makefile	/^OBJ		= 	$(addprefix $(OBJDIR),$(OBJNAME))$/;"	m
 OBJDIR	Makefile	/^OBJDIR		=	.\/obj\/$/;"	m
 OBJNAME	Makefile	/^OBJNAME		=	$(SRCNAME:.c=.o)$/;"	m
 OKC	Makefile	/^OKC			=	\\033[32m$/;"	m
+SHELL	includes/minishell_define.h	/^# define SHELL	/;"	d
 SRC	Makefile	/^SRC		= 	$(addprefix $(SRCDIR),$(SRCNAME))$/;"	m
 SRCDIR	Makefile	/^SRCDIR		=	.\/srcs\/$/;"	m
 SRCNAME	Makefile	/^SRCNAME 	=	minishell.c \\$/;"	m
 WAC	Makefile	/^WAC			=	\\033[33m$/;"	m
+bindirs	includes/minishell_struct.h	/^	char			**bindirs;$/;"	m	struct:s_sh
+builtinfunc	includes/minishell_struct.h	/^typedef void (*builtinfunc)(void *a);$/;"	t
+builtins	includes/minishell_struct.h	/^	builtinfunc		*builtins;$/;"	m	struct:s_sh
+commands	includes/minishell_struct.h	/^	char			**commands;$/;"	m	struct:s_sh
+echo_env	srcs/builtins.c	/^void	echo_env(char *str, t_list *env, char nflag)$/;"	f
+env	includes/minishell_struct.h	/^	t_list			*env;$/;"	m	struct:s_sh
+env_str	includes/minishell_struct.h	/^	char			*env_str;$/;"	m	struct:s_env
+envi	includes/minishell_struct.h	/^	char			**envi;$/;"	m	struct:s_sh
+father	includes/minishell_struct.h	/^	pid_t			father;$/;"	m	struct:s_sh
+ft_bindirs	srcs/minishell.c	/^char		**ft_bindirs(char **envp)$/;"	f
+ft_builtinfuncs	srcs/prompt.c	/^static int	ft_builtinfuncs(t_sh *sh)$/;"	f	file:
+ft_cd	srcs/builtins.c	/^void	ft_cd(void *a)$/;"	f
+ft_checkaccess	srcs/prompt.c	/^int			ft_checkaccess(char *shell, char *path, int mode)$/;"	f
+ft_echo	srcs/builtins.c	/^void	ft_echo(void *a)$/;"	f
+ft_elsefuncs	srcs/prompt.c	/^static int	ft_elsefuncs(t_sh *sh)$/;"	f	file:
+ft_env	srcs/builtins.c	/^void	ft_env(void *a)$/;"	f
+ft_envlist	srcs/env.c	/^t_list			*ft_envlist(char **envp)$/;"	f
+ft_error	srcs/minishell.c	/^int				ft_error(char *shell, char *command, const char *error, \\$/;"	f
+ft_exit	srcs/builtins.c	/^void	ft_exit(void *a)$/;"	f
+ft_findenv	srcs/env.c	/^char			*ft_findenv(t_list *env, char *name)$/;"	f
+ft_getbinary	srcs/prompt.c	/^int			ft_getbinary(char *path, t_sh *sh)$/;"	f
+ft_getenv	srcs/env.c	/^char		**ft_getenv(t_sh *sh)$/;"	f
+ft_getpath	srcs/env.c	/^char			*ft_getpath(t_sh *sh)$/;"	f
+ft_newenv	srcs/env.c	/^static t_list	*ft_newenv(char *str)$/;"	f	file:
+ft_pathfromhome	srcs/env.c	/^static char		*ft_pathfromhome(char *cwd, char *home)$/;"	f	file:
+ft_printprompt	srcs/prompt.c	/^void	ft_printprompt(t_sh *sh)$/;"	f
+ft_prompt	srcs/prompt.c	/^int		ft_prompt(t_sh *sh)$/;"	f
+ft_readline	srcs/prompt.c	/^static int	ft_readline(t_sh *sh)$/;"	f	file:
+ft_setenv	srcs/builtins.c	/^void	ft_setenv(void *a)$/;"	f
+ft_unsetenv	srcs/builtins.c	/^void	ft_unsetenv(void *a)$/;"	f
+ft_validfuncs	srcs/minishell.c	/^char		**ft_validfuncs(void)$/;"	f
+ft_validfuncsptr	srcs/minishell.c	/^builtinfunc		*ft_validfuncsptr(void)$/;"	f
+line	includes/minishell_struct.h	/^	char			*line;$/;"	m	struct:s_sh
+main	srcs/minishell.c	/^int			main(int argc, char **argv, char **envp)$/;"	f
+name	includes/minishell_struct.h	/^	char			*name;$/;"	m	struct:s_env
+path	includes/minishell_struct.h	/^	char			*path;$/;"	m	struct:s_sh
+s_env	includes/minishell_struct.h	/^typedef struct		s_env$/;"	s
+s_sh	includes/minishell_struct.h	/^typedef struct		s_sh$/;"	s
+t_env	includes/minishell_struct.h	/^}					t_env;$/;"	t	typeref:struct:s_env
+t_sh	includes/minishell_struct.h	/^}					t_sh;$/;"	t	typeref:struct:s_sh
+validfuncs	includes/minishell_struct.h	/^	char			**validfuncs;$/;"	m	struct:s_sh
+value	includes/minishell_struct.h	/^	char			*value;$/;"	m	struct:s_env
