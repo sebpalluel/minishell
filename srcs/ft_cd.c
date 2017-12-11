@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/27 15:21:44 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/11 18:04:36 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/11 18:43:35 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,11 @@
 
 static void		ft_cdhome(t_sh *sh)
 {
-	if (chdir(ENVSTRUCT(ft_searchenv(sh->env, "HOME"))->value) == -1)
+	t_list		*tmp;
+
+	if (!(tmp = ft_searchenv(sh->env, "HOME")))
+		ft_error(SHELL, "cd :", " HOME doesn't exist", 0);
+	else if (ft_checkaccess("cd :", ENVSTRUCT(tmp)->value, 1) != OK)
 		ft_error(SHELL, "cd :", " HOME not defined", 0);
 	else
 	{
@@ -23,7 +27,6 @@ static void		ft_cdhome(t_sh *sh)
 		ft_editenv(sh->env, "PWD", \
 				ENVSTRUCT(ft_searchenv(sh->env, "HOME"))->value);
 	}
-
 }
 
 int		ft_islink(const char *path)
@@ -88,10 +91,11 @@ void		ft_cdprev(t_sh *sh)
 
 	if (!(tmp = ft_searchenv(sh->env, "OLDPWD")))
 		ft_error(SHELL, "cd :", " OLDPWD not defined", 0);
-	else if (tmp && (chdir(ENVSTRUCT(tmp)->value) < 0))
+	else if (tmp && !ENVSTRUCT(tmp)->value)
 		ft_error(SHELL, "cd :", " OLDPWD not set", 0);
-	else
+	else if (ft_checkaccess("cd :", ENVSTRUCT(tmp)->value, 1) == OK)
 	{
+		chdir(ENVSTRUCT(tmp)->value);
 		ft_putendl(ENVSTRUCT(tmp)->value);
 		ft_editenv(sh->env, "SWAP", \
 				ENVSTRUCT(ft_searchenv(sh->env, "PWD"))->value);
@@ -136,14 +140,16 @@ void			ft_cd(void *a)
 	else if (!ft_strcmp(*cmds, "-"))
 		ft_cdprev(sh);
 	else if (ft_checkaccess("cd :", *cmds, 1) == OK)
-		ft_cdmove(sh, *cmds);
-	if (sh->path)
 	{
-		if ((tmp = ft_searchenv(sh->env, "PWD")))
-			ft_editenv(sh->env, "OLDPWD", ENVSTRUCT(tmp)->value);
-		ft_editenv(sh->env, "PWD", sh->path);
-		free(sh->path);
-		sh->path = ft_getpath(sh);
+		ft_cdmove(sh, *cmds);
+		if (sh->path)
+		{
+			if ((tmp = ft_searchenv(sh->env, "PWD")))
+				ft_editenv(sh->env, "OLDPWD", ENVSTRUCT(tmp)->value);
+			ft_editenv(sh->env, "PWD", sh->path);
+			free(sh->path);
+			sh->path = ft_getpath(sh);
+		}
 	}
 }
 
