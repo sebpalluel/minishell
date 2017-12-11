@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/27 15:21:44 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/10 17:36:07 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/11 18:04:36 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static void	ft_cderror(char *path, int mode) // a changer en plus clean
 	}
 }
 
-static char	*ft_cdlink(t_sh *sh, char *path, char *tmp3)
+static char	*ft_cdlink(t_sh *sh, char *path, char *tmp3) // a changer egalement
 {
 	char 	*tmp;
 
@@ -68,12 +68,12 @@ static char	*ft_cdlink(t_sh *sh, char *path, char *tmp3)
 		tmp = ft_strdup("./");
 	chdir(tmp);
 	free(tmp);
-	if (getcwd(sh->buff, BUFF_CWD) == NULL)
+	if (!(tmp = getcwd(sh->buff, BUFF_CWD)))
 		ft_cderror("Récuperation de PWD", 0);
-	if (ft_strcmp(sh->buff, "/") == 0)
+	if (ft_strcmp(tmp, "/") == 0)
 	{
-		free(sh->buff);
-		sh->buff = ft_strnew(0);
+		free(tmp);
+		tmp = ft_strnew(0);
 	}
 	chdir(tmp3);
 	if (tmp3[0] != '/')
@@ -82,6 +82,25 @@ static char	*ft_cdlink(t_sh *sh, char *path, char *tmp3)
 	return (tmp);
 }
 
+void		ft_cdprev(t_sh *sh)
+{
+	t_list	*tmp;
+
+	if (!(tmp = ft_searchenv(sh->env, "OLDPWD")))
+		ft_error(SHELL, "cd :", " OLDPWD not defined", 0);
+	else if (tmp && (chdir(ENVSTRUCT(tmp)->value) < 0))
+		ft_error(SHELL, "cd :", " OLDPWD not set", 0);
+	else
+	{
+		ft_putendl(ENVSTRUCT(tmp)->value);
+		ft_editenv(sh->env, "SWAP", \
+				ENVSTRUCT(ft_searchenv(sh->env, "PWD"))->value);
+		ft_editenv(sh->env, "PWD", ENVSTRUCT(tmp)->value);
+		ft_editenv(sh->env, "OLDPWD", \
+				ENVSTRUCT(ft_searchenv(sh->env, "SWAP"))->value);
+		ft_delenvelem(&sh->env, "SWAP");
+	}
+}
 void		ft_cdmove(t_sh *sh, char *path)
 {
 	char	*tmp;
@@ -101,31 +120,7 @@ void		ft_cdmove(t_sh *sh, char *path)
 			tmp3 = path;
 		tmp = ft_cdlink(sh, path, tmp3);
 	}
-	ft_editenv(sh->env, "$OLDPWD",\
-			ENVSTRUCT(ft_searchenv(sh->env, "$PWD"))->value);
-	ft_editenv(sh->env, "$PWD", tmp);
-}
-
-void		ft_cdprev(t_sh *sh)
-{
-	t_list	*tmp;
-
-	tmp = ft_searchenv(sh->env, "OLDPWD");
-	if (!tmp)
-		ft_error(SHELL, "cd :", " OLDPWD not defined", 0);
-	else if (tmp && chdir(ENVSTRUCT(tmp)->value) == -1)
-		ft_error(SHELL, "cd :", " OLDPWD not set", 0);
-	else
-	{
-		ft_putendl(ENVSTRUCT(tmp)->value);
-		ft_editenv(sh->env, "SWAP", \
-				ENVSTRUCT(ft_searchenv(sh->env, "PWD"))->value);
-		ft_editenv(sh->env, "PWD", \
-				ENVSTRUCT(ft_searchenv(sh->env, "OLDPWD"))->value);
-		ft_editenv(sh->env, "OLDPWD", \
-				ENVSTRUCT(ft_searchenv(sh->env, "SWAP"))->value);
-		ft_delenvelem(&sh->env, "SWAP");
-	}
+	sh->path = tmp;
 }
 
 void			ft_cd(void *a)
@@ -142,8 +137,11 @@ void			ft_cd(void *a)
 		ft_cdprev(sh);
 	else if (ft_checkaccess("cd :", *cmds, 1) == OK)
 		ft_cdmove(sh, *cmds);
-	if ((tmp = ft_searchenv(sh->env, "PWD")))
+	if (sh->path)
 	{
+		if ((tmp = ft_searchenv(sh->env, "PWD")))
+			ft_editenv(sh->env, "OLDPWD", ENVSTRUCT(tmp)->value);
+		ft_editenv(sh->env, "PWD", sh->path);
 		free(sh->path);
 		sh->path = ft_getpath(sh);
 	}
