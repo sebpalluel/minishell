@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/27 15:21:44 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/01 17:16:47 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/10 17:36:07 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,31 +33,77 @@ int		ft_islink(const char *path)
 
 	tmp = 0;
 	if (ft_strcmp(path, "../") == OK || ft_strcmp(path, "./") == OK)
-		return (0);
+		return (ERROR);
 	if (lstat(path, &stats) == -1)
-		return (0);
+		return (ERROR);
 	if (!(tmp = S_ISLNK(stats.st_mode)))
-		return (0);
+		return (ERROR);
 	else
-		return (1);
+		return (OK);
 }
 
-int			ft_cdmove(t_sh *sh, char *path)
+static void	ft_cderror(char *path, int mode) // a changer en plus clean
+{
+	if (mode == 0)
+	{
+		if (access(path, F_OK) == 0)
+			ft_putstr("\033[01mcd:\033[31m Chemin interdit : \033[00m");
+		else
+			ft_putstr("\033[01mcd:\033[31m Chemin inexistant : \033[00m");
+		ft_putstr(path);
+	}
+	else
+	{
+		ft_putstr("\033[31mCommande invalide\033[00m: cd [-L|-P] [\033[01mdo");
+		ft_putstr("ssier\033[00m | \033[01m..\033[00m | \033[01m/\033[00m ");
+		ft_putstr("| \033[01m-\033[00m | \033[01m~\033[00m |  ]");
+	}
+}
+
+static char	*ft_cdlink(t_sh *sh, char *path, char *tmp3)
+{
+	char 	*tmp;
+
+	if (!(tmp = ft_strsub(path, 0, ft_strlen(path) - ft_strlen(tmp3))))
+		tmp = ft_strdup("./");
+	chdir(tmp);
+	free(tmp);
+	if (getcwd(sh->buff, BUFF_CWD) == NULL)
+		ft_cderror("Récuperation de PWD", 0);
+	if (ft_strcmp(sh->buff, "/") == 0)
+	{
+		free(sh->buff);
+		sh->buff = ft_strnew(0);
+	}
+	chdir(tmp3);
+	if (tmp3[0] != '/')
+		tmp = ft_strjoinfree(tmp, "/", 1);
+	tmp = ft_strjoinfree(tmp, tmp3, 1);
+	return (tmp);
+}
+
+void		ft_cdmove(t_sh *sh, char *path)
 {
 	char	*tmp;
 	char	*tmp3;
 
 	tmp = NULL;
-	if (ft_islink(path) == OK)
-		return (0);
-	tmp3 = ft_strrchr(path, '/');
-	if (tmp3 == NULL)
-		tmp3 = path;
-	//tmp = ft_cd_lien2(tmp, path, tmp3);
+	if (ft_islink(path) != OK)
+	{
+		if (chdir(path) == -1)
+			ft_cderror(path, 0);
+		tmp = ft_getpath(sh);
+	}
+	else
+	{
+		tmp3 = ft_strrchr(path, '/');
+		if (tmp3 == NULL)
+			tmp3 = path;
+		tmp = ft_cdlink(sh, path, tmp3);
+	}
 	ft_editenv(sh->env, "$OLDPWD",\
 			ENVSTRUCT(ft_searchenv(sh->env, "$PWD"))->value);
 	ft_editenv(sh->env, "$PWD", tmp);
-	return (1);
 }
 
 void		ft_cdprev(t_sh *sh)

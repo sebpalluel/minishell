@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:33:46 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/01 17:15:35 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/10 17:23:41 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,10 @@ char			*ft_getpath(t_sh *sh)
 	char		*cwd;
 	char		*path;
 	char		*home;
-	char		buff[2048];
 
 	path = NULL;
 	home = NULL;
-	if (!(cwd = getcwd(buff, 2048)))
+	if (!(cwd = getcwd(sh->buff, BUFF_CWD)))
 		return(NULL);
 	if (!(home = ENVSTRUCT(ft_searchenv(sh->env, "HOME"))->value))
 	{

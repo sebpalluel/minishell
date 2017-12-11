@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/23 17:04:51 by psebasti          #+#    #+#             */
-/*   Updated: 2017/11/24 16:12:03 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/10 17:20:04 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_STRUCT_H
 
 # include "minishell.h"
+# include "minishell_define.h"
 
 typedef void (*builtinfunc)(void *a);
 
@@ -37,6 +38,7 @@ typedef struct		s_sh
 	char			*path;
 	pid_t			father;
 	char			**commands;
+	char			buff[BUFF_CWD];
 }					t_sh;
 
 #endif
