@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/27 15:21:44 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/12 16:26:57 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/12 17:06:44 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,36 +32,20 @@ static void		ft_cdhome(t_sh *sh)
 
 int		ft_islink(const char *path)
 {
-	struct stat	stats;
+	struct stat	path_stats;
 	int			tmp;
 
 	tmp = 0;
+	lstat(path, &path_stats);
+	printf("S_ISLNK %d\n", S_ISLNK(path_stats.st_mode));
 	if (ft_strcmp(path, "../") == OK || ft_strcmp(path, "./") == OK)
 		return (ERROR);
-	if (lstat(path, &stats) == -1)
+	if (lstat(path, &path_stats) == -1)
 		return (ERROR);
-	if (!(tmp = S_ISLNK(stats.st_mode)))
+	if (!(tmp = S_ISLNK(path_stats.st_mode)))
 		return (ERROR);
 	else
 		return (OK);
-}
-
-static void	ft_cderror(char *path, int mode) // a changer en plus clean
-{
-	if (mode == 0)
-	{
-		if (access(path, F_OK) == 0)
-			ft_putstr("\033[01mcd:\033[31m Chemin interdit : \033[00m");
-		else
-			ft_putstr("\033[01mcd:\033[31m Chemin inexistant : \033[00m");
-		ft_putstr(path);
-	}
-	else
-	{
-		ft_putstr("\033[31mCommande invalide\033[00m: cd [-L|-P] [\033[01mdo");
-		ft_putstr("ssier\033[00m | \033[01m..\033[00m | \033[01m/\033[00m ");
-		ft_putstr("| \033[01m-\033[00m | \033[01m~\033[00m |  ]");
-	}
 }
 
 static char	*ft_cdlink(t_sh *sh, char *path, char *tmp3) // a changer egalement
@@ -72,8 +56,7 @@ static char	*ft_cdlink(t_sh *sh, char *path, char *tmp3) // a changer egalement
 		tmp = ft_strdup("./");
 	chdir(tmp);
 	free(tmp);
-	if (!(tmp = getcwd(sh->buff, BUFF_CWD)))
-		ft_cderror("Récuperation de PWD", 0);
+	tmp = getcwd(sh->buff, BUFF_CWD);
 	if (ft_strcmp(tmp, "/") == 0)
 	{
 		free(tmp);
@@ -115,10 +98,7 @@ int			ft_cdmove(t_sh *sh, char *path)
 	if (ft_checkaccess("cd : ", path, 0) == OK)
 	{
 		if (ft_islink(path) != OK)
-		{
-			if (chdir(path) == -1)
-				ft_cderror(path, 0);
-		}
+			chdir(path);
 		else
 		{
 			tmp3 = ft_strrchr(path, '/');
