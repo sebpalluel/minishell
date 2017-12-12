@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/23 17:01:42 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/01 16:50:06 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/12 14:08:27 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,6 @@ void			ft_setenv(void *a);
 void			ft_unsetenv(void *a);
 void			ft_env(void *a);
 void			ft_exit(void *a);
+void			ft_pwd(void *a);
 
 #endif

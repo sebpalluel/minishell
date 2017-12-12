@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/15 14:10:14 by psebasti          #+#    #+#             */
-/*   Updated: 2017/11/27 16:59:03 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/12 14:08:33 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,18 @@ void	ft_exit(void *a)
 	sh = (t_sh *)a;
 	//clean func
 	exit(EXIT_SUCCESS);
+}
+
+void		ft_pwd(void *a)
+{
+	t_sh 	*sh;
+	t_list	*tmp;
+	char	**cmds;
+
+	sh = (t_sh *)a;
+	cmds = sh->commands;
+	if (*++cmds)
+		ft_error("pwd: ", "too many arguments", NULL, ERROR);
+	if ((tmp = ft_searchenv(sh->env, "PWD")))
+		ft_putendl(ENVSTRUCT(tmp)->value);
 }

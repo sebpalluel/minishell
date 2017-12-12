@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/27 15:21:44 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/11 18:43:35 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/12 14:08:32 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void		ft_cdprev(t_sh *sh)
 		ft_error(SHELL, "cd :", " OLDPWD not defined", 0);
 	else if (tmp && !ENVSTRUCT(tmp)->value)
 		ft_error(SHELL, "cd :", " OLDPWD not set", 0);
-	else if (ft_checkaccess("cd :", ENVSTRUCT(tmp)->value, 1) == OK)
+	else if (ft_checkaccess("cd :", ENVSTRUCT(tmp)->value, 0) == OK)
 	{
 		chdir(ENVSTRUCT(tmp)->value);
 		ft_putendl(ENVSTRUCT(tmp)->value);
@@ -139,9 +139,10 @@ void			ft_cd(void *a)
 		ft_cdhome(sh);
 	else if (!ft_strcmp(*cmds, "-"))
 		ft_cdprev(sh);
-	else if (ft_checkaccess("cd :", *cmds, 1) == OK)
+	else if (ft_checkaccess("cd :", *cmds, 0) == OK)
 	{
 		ft_cdmove(sh, *cmds);
+		printf("pwd : %s\n", sh->path);
 		if (sh->path)
 		{
 			if ((tmp = ft_searchenv(sh->env, "PWD")))

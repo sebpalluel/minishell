@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:32:06 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/11 18:45:05 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/12 13:59:44 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,15 +78,15 @@ int			ft_checkaccess(char *shell, char *path, int mode)
 	int		ret;
 
 	lstat(path, &path_stat);
-	if (access(path, F_OK) != 0)
+	if (access(path, F_OK) != OK)
 		return (ret = mode ? ERROR : \
-				ft_error(shell, "no such file or directory: ", path, ERROR));
-	else if (access(path, X_OK) != 0)
+				ft_error(shell, path, ": No such file or directory", ERROR));
+	else if (access(path, X_OK) != OK)
 		return (ret = mode ? ERROR : \
-				ft_error(shell, "permission denied: ", path, ERROR));
+				ft_error(shell, path, ": Permission denied", ERROR));
 	else if (!S_ISDIR(path_stat.st_mode))
 		return (ret = mode ? ERROR : \
-				ft_error(shell, "not a directory: ", path, ERROR));
+				ft_error(shell, path, ": Not a directory", ERROR));
 	return (OK);
 }
 
