@@ -6,28 +6,48 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/15 14:10:14 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/12 14:16:07 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/12 18:55:21 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	ft_setenv(void *a)
+void		ft_setenv(void *a)
 {
-	if (a)
-		printf("setenv\n");
+	t_sh 	*sh;
+	char	**cmds;
+	char	*name;
+	char	*value;
+
+	sh = (t_sh *)a;
+	cmds = sh->commands;
+	if (*++cmds)
+	{
+		name = *++cmds;
+		value = *cmds;
+		ft_editenv(sh->env, name, value);
+	}
 }
 
-void	ft_unsetenv(void *a)
+void		ft_unsetenv(void *a)
 {
 	if (a)
 		printf("unsetenv\n");
 }
 
-void	ft_env(void *a)
+void		ft_env(void *a)
 {
-	if (a)
-		printf("env\n");
+	t_sh 	*sh;
+	t_list	*tmp;
+
+	sh = (t_sh *)a;
+	tmp = sh->env;
+	while (tmp->next)
+	{
+		ft_putendl(ENVSTRUCT(tmp)->env_str);
+		tmp = tmp->next;
+	}
+	ft_putendl(ENVSTRUCT(tmp)->env_str);
 }
 
 void	ft_exit(void *a)

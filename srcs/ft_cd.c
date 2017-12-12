@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/27 15:21:44 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/12 17:47:57 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/12 17:49:33 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ static void		ft_cdhome(t_sh *sh)
 	}
 }
 
-void		ft_cdprev(t_sh *sh)
+void			ft_cdprev(t_sh *sh)
 {
-	t_list	*tmp;
+	t_list		*tmp;
 
 	if (!(tmp = ft_searchenv(sh->env, "OLDPWD")))
 		ft_error(SHELL, "cd :", " OLDPWD not defined", 0);
@@ -51,10 +51,10 @@ void		ft_cdprev(t_sh *sh)
 	}
 }
 
-static int	ft_cdmove(t_sh *sh, char *path)
+static int		ft_cdmove(t_sh *sh, char *path)
 {
-	char	*tmp;
-	int		ret;
+	char		*tmp;
+	int			ret;
 
 	tmp = (path[ft_strlen(path) - 1] != '/' ? ft_strjoin(path, "/") : path);
 	ret = chdir(tmp);

@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:32:06 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/12 17:10:04 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/12 17:50:56 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ static int	ft_readline(t_sh *sh)
 	return(OK);
 }
 
-int		ft_prompt(t_sh *sh)
+int			ft_prompt(t_sh *sh)
 {
 	if (sh->line > 0)
 		if (ft_readline(sh) != OK)
