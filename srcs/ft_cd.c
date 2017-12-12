@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/27 15:21:44 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/12 17:37:25 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/12 17:47:57 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,14 @@ void		ft_cdprev(t_sh *sh)
 	}
 }
 
-static int	ft_cdmove(char *path)
+static int	ft_cdmove(t_sh *sh, char *path)
 {
 	char	*tmp;
+	int		ret;
 
 	tmp = (path[ft_strlen(path) - 1] != '/' ? ft_strjoin(path, "/") : path);
-	if (chdir(tmp) == -1)
+	ret = chdir(tmp);
+	if (ret == -1 || !sh->path)
 	{
 		ft_checkaccess("cd : ", path, 0);
 		return (ERROR);
@@ -76,7 +78,7 @@ void			ft_cd(void *a)
 		ft_cdhome(sh);
 	else if (!ft_strcmp(*cmds, "-"))
 		ft_cdprev(sh);
-	else if (ft_cdmove(*cmds) == OK)
+	else if (ft_cdmove(sh, *cmds) == OK)
 	{
 		if ((tmp = ft_searchenv(sh->env, "PWD")))
 			ft_editenv(sh->env, "OLDPWD", ENVSTRUCT(tmp)->value);
