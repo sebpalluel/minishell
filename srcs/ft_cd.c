@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/27 15:21:44 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/12 17:06:44 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/12 17:37:25 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,45 +30,6 @@ static void		ft_cdhome(t_sh *sh)
 	}
 }
 
-int		ft_islink(const char *path)
-{
-	struct stat	path_stats;
-	int			tmp;
-
-	tmp = 0;
-	lstat(path, &path_stats);
-	printf("S_ISLNK %d\n", S_ISLNK(path_stats.st_mode));
-	if (ft_strcmp(path, "../") == OK || ft_strcmp(path, "./") == OK)
-		return (ERROR);
-	if (lstat(path, &path_stats) == -1)
-		return (ERROR);
-	if (!(tmp = S_ISLNK(path_stats.st_mode)))
-		return (ERROR);
-	else
-		return (OK);
-}
-
-static char	*ft_cdlink(t_sh *sh, char *path, char *tmp3) // a changer egalement
-{
-	char 	*tmp;
-
-	if (!(tmp = ft_strsub(path, 0, ft_strlen(path) - ft_strlen(tmp3))))
-		tmp = ft_strdup("./");
-	chdir(tmp);
-	free(tmp);
-	tmp = getcwd(sh->buff, BUFF_CWD);
-	if (ft_strcmp(tmp, "/") == 0)
-	{
-		free(tmp);
-		tmp = ft_strnew(0);
-	}
-	chdir(tmp3);
-	if (tmp3[0] != '/')
-		tmp = ft_strjoinfree(tmp, "/", 1);
-	tmp = ft_strjoinfree(tmp, tmp3, 1);
-	return (tmp);
-}
-
 void		ft_cdprev(t_sh *sh)
 {
 	t_list	*tmp;
@@ -89,27 +50,18 @@ void		ft_cdprev(t_sh *sh)
 		ft_delenvelem(&sh->env, "SWAP");
 	}
 }
-int			ft_cdmove(t_sh *sh, char *path)
+
+static int	ft_cdmove(char *path)
 {
 	char	*tmp;
-	char	*tmp3;
 
-	tmp = NULL;
-	if (ft_checkaccess("cd : ", path, 0) == OK)
+	tmp = (path[ft_strlen(path) - 1] != '/' ? ft_strjoin(path, "/") : path);
+	if (chdir(tmp) == -1)
 	{
-		if (ft_islink(path) != OK)
-			chdir(path);
-		else
-		{
-			tmp3 = ft_strrchr(path, '/');
-			if (tmp3 == NULL)
-				tmp3 = path;
-			printf("tmp3 link : %s\n", tmp3);
-			tmp = ft_cdlink(sh, path, tmp3);
-		}
-		return (OK);
+		ft_checkaccess("cd : ", path, 0);
+		return (ERROR);
 	}
-	return (ERROR);
+	return (OK);
 }
 
 void			ft_cd(void *a)
@@ -124,11 +76,11 @@ void			ft_cd(void *a)
 		ft_cdhome(sh);
 	else if (!ft_strcmp(*cmds, "-"))
 		ft_cdprev(sh);
-	else if (ft_cdmove(sh, *cmds) == OK)
+	else if (ft_cdmove(*cmds) == OK)
 	{
-			if ((tmp = ft_searchenv(sh->env, "PWD")))
-				ft_editenv(sh->env, "OLDPWD", ENVSTRUCT(tmp)->value);
-			ft_editenv(sh->env, "PWD", getcwd(sh->buff, BUFF_CWD));
+		if ((tmp = ft_searchenv(sh->env, "PWD")))
+			ft_editenv(sh->env, "OLDPWD", ENVSTRUCT(tmp)->value);
+		ft_editenv(sh->env, "PWD", getcwd(sh->buff, BUFF_CWD));
 	}
 	if (sh->path)
 		free(sh->path);
