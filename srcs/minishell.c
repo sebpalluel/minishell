@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/23 16:45:28 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/01 17:07:05 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/12 14:15:06 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ char		**ft_validfuncs(void)
 	validfuncs[3] = ft_strdup("unsetenv");
 	validfuncs[4] = ft_strdup("env");
 	validfuncs[5] = ft_strdup("exit");
-	validfuncs[6] = NULL;
+	validfuncs[6] = ft_strdup("pwd");
+	validfuncs[7] = NULL;
 	return (validfuncs);
 }
 
@@ -65,7 +66,8 @@ builtinfunc		*ft_validfuncsptr(void)
 	builtins[3] = ft_unsetenv;
 	builtins[4] = ft_env;
 	builtins[5] = ft_exit;
-	builtins[6] = NULL;
+	builtins[6] = ft_pwd;
+	builtins[7] = NULL;
 	return (builtins);
 }
 

@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/15 14:10:14 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/12 14:08:33 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/12 14:15:33 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,6 @@ void		ft_pwd(void *a)
 	cmds = sh->commands;
 	if (*++cmds)
 		ft_error("pwd: ", "too many arguments", NULL, ERROR);
-	if ((tmp = ft_searchenv(sh->env, "PWD")))
+	else if ((tmp = ft_searchenv(sh->env, "PWD")))
 		ft_putendl(ENVSTRUCT(tmp)->value);
 }

@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:32:06 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/12 13:59:44 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/12 14:12:17 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,10 @@ int			ft_getbinary(char *path, t_sh *sh)
 	return (ERROR);
 }
 
-int			ft_checkaccess(char *shell, char *path, int mode)
+int				ft_checkaccess(char *shell, char *path, int mode)
 {
 	struct stat path_stat;
-	int		ret;
+	int			ret;
 
 	lstat(path, &path_stat);
 	if (access(path, F_OK) != OK)
