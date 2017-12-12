@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/27 15:21:44 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/12 16:23:21 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/12 16:26:57 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static void		ft_cdhome(t_sh *sh)
 				ENVSTRUCT(ft_searchenv(sh->env, "PWD"))->value);
 		ft_editenv(sh->env, "PWD", \
 				ENVSTRUCT(ft_searchenv(sh->env, "HOME"))->value);
+		chdir(ENVSTRUCT(tmp)->value);
 	}
 }
 
