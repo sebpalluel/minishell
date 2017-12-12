@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/27 15:21:44 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/12 14:12:01 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/12 15:55:46 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,6 @@ void			ft_cd(void *a)
 	else if (ft_checkaccess("cd :", *cmds, 0) == OK)
 	{
 		ft_cdmove(sh, *cmds);
-		printf("pwd : %s\n", sh->path);
 		if (sh->path)
 		{
 			if ((tmp = ft_searchenv(sh->env, "PWD")))
