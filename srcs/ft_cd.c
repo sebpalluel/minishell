@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/27 15:21:44 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/12 17:49:33 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/13 16:06:10 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ static void		ft_cdhome(t_sh *sh)
 	t_list		*tmp;
 
 	if (!(tmp = ft_searchenv(sh->env, "HOME")))
-		ft_error(SHELL, "cd :", " HOME doesn't exist", 0);
-	else if (ft_checkaccess("cd :", ENVSTRUCT(tmp)->value, 1) != OK)
-		ft_error(SHELL, "cd :", " HOME not defined", 0);
+		sh->return_col = ft_error(SHELL, "cd :", " HOME doesn't exist", ERROR);
+	else if (ft_checkaccess("cd :", ENVSTRUCT(tmp)->value, 1, 0) != OK)
+		sh->return_col = ft_error(SHELL, "cd :", " HOME not defined", ERROR);
 	else
 	{
 		ft_editenv(sh->env, "OLDPWD", \
@@ -35,10 +35,11 @@ void			ft_cdprev(t_sh *sh)
 	t_list		*tmp;
 
 	if (!(tmp = ft_searchenv(sh->env, "OLDPWD")))
-		ft_error(SHELL, "cd :", " OLDPWD not defined", 0);
+		sh->return_col = ft_error(SHELL, "cd :", " OLDPWD not defined", ERROR);
 	else if (tmp && !ENVSTRUCT(tmp)->value)
-		ft_error(SHELL, "cd :", " OLDPWD not set", 0);
-	else if (ft_checkaccess("cd : ", ENVSTRUCT(tmp)->value, 0) == OK)
+		sh->return_col = ft_error(SHELL, "cd :", " OLDPWD not set", ERROR);
+	else if ((sh->return_col = \
+				ft_checkaccess("cd : ", ENVSTRUCT(tmp)->value, 0, 0)) == OK)
 	{
 		chdir(ENVSTRUCT(tmp)->value);
 		ft_putendl(ENVSTRUCT(tmp)->value);
@@ -60,7 +61,7 @@ static int		ft_cdmove(t_sh *sh, char *path)
 	ret = chdir(tmp);
 	if (ret == -1 || !sh->path)
 	{
-		ft_checkaccess("cd : ", path, 0);
+		sh->return_col = ft_checkaccess("cd : ", path, 0, ERROR);
 		return (ERROR);
 	}
 	return (OK);

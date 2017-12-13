@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/15 14:10:14 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/13 13:34:07 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/13 16:14:06 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,22 +41,33 @@ void		ft_unsetenv(void *a)
 	if (*++cmds)
 		ft_delenvelem(&sh->env, *cmds);
 	else
-		ft_error("unsetenv: ", "Too few arguments", NULL, ERROR);
+		sh->return_col = \
+				ft_error("unsetenv: ", "Too few arguments", NULL, ERROR);
 }
 
 void		ft_env(void *a)
 {
 	t_sh 	*sh;
 	t_list	*tmp;
+	char	**cmds;
+	t_bool	flag;
 
 	sh = (t_sh *)a;
 	tmp = sh->env;
-	while (tmp->next)
+	cmds = sh->commands;
+	flag = OK;
+	++cmds;
+	if (*cmds)
+		if (ft_checkaccess("env : ", *cmds, 0, 1) != OK)
+			flag = ERROR;
+	while (flag == OK && tmp->next)
 	{
 		ft_putendl(ENVSTRUCT(tmp)->env_str);
 		tmp = tmp->next;
+		if (!tmp->next)
+			ft_putendl(ENVSTRUCT(tmp)->env_str);
 	}
-	ft_putendl(ENVSTRUCT(tmp)->env_str);
+	sh->return_col = flag;
 }
 
 void	ft_exit(void *a)
@@ -71,13 +82,12 @@ void	ft_exit(void *a)
 void		ft_pwd(void *a)
 {
 	t_sh 	*sh;
-	t_list	*tmp;
 	char	**cmds;
 
 	sh = (t_sh *)a;
 	cmds = sh->commands;
 	if (*++cmds)
-		ft_error("pwd: ", "too many arguments", NULL, ERROR);
-	else if ((tmp = ft_searchenv(sh->env, "PWD")))
-		ft_putendl(ENVSTRUCT(tmp)->value);
+		sh->return_col = ft_error("pwd: ", "too many arguments", NULL, ERROR);
+	else
+		ft_putendl(getcwd(sh->buff, BUFF_CWD));
 }

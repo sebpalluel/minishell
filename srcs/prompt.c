@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:32:06 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/12 17:50:56 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/13 15:58:06 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ void	ft_printprompt(t_sh *sh)
 	ft_putstr(ANSI_RESET);
 	ft_putstr(ANSI_GREEN);
 	ft_putstr(sh->path);
-	ft_putstr(ANSI_RED);
+	if (sh->return_col != OK)
+		ft_putstr(ANSI_RED);
+	else
+		ft_putstr(ANSI_GREEN);
 	ft_putstr(ANSI_BLINK);
 	ft_putstr(" $> ");
 	ft_putstr(ANSI_RESET);
@@ -60,7 +63,7 @@ int			ft_getbinary(char *path, t_sh *sh)
 		{
 			if (WEXITSTATUS(status) == 127)
 				ft_error(SHELL, sh->commands[0], ": execve failed", 0);
-			if (WEXITSTATUS(status) != 255)
+			if ((sh->return_col =WEXITSTATUS(status)) != 255)
 				return (OK);
 		}
 		else
@@ -72,7 +75,7 @@ int			ft_getbinary(char *path, t_sh *sh)
 	return (ERROR);
 }
 
-int				ft_checkaccess(char *shell, char *path, int mode)
+int				ft_checkaccess(char *shell, char *path, int mode, int env_mode)
 {
 	struct stat path_stat;
 	int			ret;
@@ -81,9 +84,12 @@ int				ft_checkaccess(char *shell, char *path, int mode)
 	if (access(path, F_OK) != OK)
 		return (ret = mode ? ERROR : \
 				ft_error(shell, path, ": No such file or directory", ERROR));
-	else if (!S_ISDIR(path_stat.st_mode))
-		return (ret = mode ? ERROR : \
-				ft_error(shell, path, ": Not a directory", ERROR));
+	else if (!env_mode)
+	{
+		if (!S_ISDIR(path_stat.st_mode))
+			return (ret = mode ? ERROR : \
+					ft_error(shell, path, ": Not a directory", ERROR));
+	}
 	else if (access(path, X_OK) != OK)
 		return (ret = mode ? ERROR : \
 				ft_error(shell, path, ": Permission denied", ERROR));
@@ -98,13 +104,13 @@ static int	ft_elsefuncs(t_sh *sh)
 	i = -1;
 	while (sh->bindirs && sh->bindirs[++i])
 	{
-		if (ft_checkaccess(SHELL, sh->bindirs[i], 1) == OK)
+		if (ft_checkaccess(SHELL, sh->bindirs[i], 1, 0) == OK)
 		{
 			command = ft_strjoin(sh->bindirs[i], "/");
 			command = ft_strjoin(command, sh->commands[0]);
 			if (access(command, F_OK) == 0)
 			{
-				if (access(command, X_OK) != 0)
+				if ((sh->return_col = access(command, X_OK) != OK))
 					return(ft_error(SHELL, command, ": Permission denied", OK));
 				else
 				{
@@ -130,10 +136,12 @@ static int	ft_readline(t_sh *sh)
 		if (!(sh->envi = ft_getenv(sh)) ||\
 				!(sh->commands = ft_strsplitequ(cmds_semi[i], " \t")))
 			return (ERROR);
+		sh->bindirs = ft_bindirs(sh);
 		if (ft_builtinfuncs(sh) == OK)
 			;
 		else if (ft_elsefuncs(sh) != OK)
-			ft_error(SHELL, sh->commands[0], ": command not found", 0);
+			sh->return_col = ft_error(SHELL, sh->commands[0], \
+					": command not found", ERROR);
 		if (sh->commands)
 			ft_tabfree((void **)sh->commands);
 	}
@@ -144,11 +152,14 @@ static int	ft_readline(t_sh *sh)
 int			ft_prompt(t_sh *sh)
 {
 	if (sh->line > 0)
+	{
+		sh->return_col = OK;
 		if (ft_readline(sh) != OK)
 		{
 			free(sh->line);
 			return (ERROR);
 		}
+	}
 	ft_printprompt(sh);
 	free(sh->line);
 	return(OK);

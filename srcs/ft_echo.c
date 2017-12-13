@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/27 15:20:33 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/12 17:49:48 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/13 16:17:45 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void		ft_echo(void *a)
 		ft_putchar('\n');
 	while (*cmds)
 	{
-		ft_echoprintcmds(cmds, sh, newline);	
+		ft_echoprintcmds(cmds, sh, newline);
 		++cmds;
 	}
 }
