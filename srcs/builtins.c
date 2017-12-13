@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/15 14:10:14 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/12 18:55:21 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/13 13:34:07 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,25 @@ void		ft_setenv(void *a)
 	cmds = sh->commands;
 	if (*++cmds)
 	{
-		name = *++cmds;
+		name = *cmds++;
 		value = *cmds;
 		ft_editenv(sh->env, name, value);
 	}
+	else
+		ft_env((void *)sh);
 }
 
 void		ft_unsetenv(void *a)
 {
-	if (a)
-		printf("unsetenv\n");
+	t_sh 	*sh;
+	char	**cmds;
+
+	sh = (t_sh *)a;
+	cmds = sh->commands;
+	if (*++cmds)
+		ft_delenvelem(&sh->env, *cmds);
+	else
+		ft_error("unsetenv: ", "Too few arguments", NULL, ERROR);
 }
 
 void		ft_env(void *a)

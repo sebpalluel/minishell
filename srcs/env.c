@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:33:46 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/12 17:51:06 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/13 13:35:17 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,13 @@ t_list			*ft_searchenv(t_list *env, char *name)
 	t_list		*list;
 
 	list = env;
-	while (list)
-	{
-		if (ft_strcmp(name, ENVSTRUCT(list)->name) == OK)
-			return (list);
-		list = list->next;
-	}
+	if (name)
+		while (list)
+		{
+			if (ENVSTRUCT(list) && ft_strcmp(name, ENVSTRUCT(list)->name) == OK)
+				return (list);
+			list = list->next;
+		}
 	return (NULL);
 }
 
@@ -120,23 +121,26 @@ char			**ft_getenv(t_sh *sh)
 	return (envtab);
 }
 
-void			ft_editenv(t_list *env, char *name, char *value)
+void		ft_editenv(t_list *env, char *name, char *value)
 {
-	char		*tmp;
-	t_list		*list;
+	char	*tmp;
+	t_list	*list;
 
-	list = ft_searchenv(env, name);
-	tmp = NULL;
-	if (list == NULL)
+	if (name)
 	{
-		tmp = ft_strjoin(name, "=");
-		tmp = ft_strjoinfree(tmp, value, 1);
-		ft_lstaddend(&env, ft_newenv(tmp));
-		free(tmp);
-	}
-	else
-	{
-		free(ENVSTRUCT(list)->value);
-		ENVSTRUCT(list)->value = ft_strdup(value);
+		list = ft_searchenv(env, name);
+		tmp = NULL;
+		if (list == NULL)
+		{
+			tmp = ft_strjoin(name, "=");
+			tmp = ft_strjoinfree(tmp, value, 1);
+			ft_lstaddend(&env, ft_newenv(tmp));
+			free(tmp);
+		}
+		else
+		{
+			free(ENVSTRUCT(list)->value);
+			ENVSTRUCT(list)->value = ft_strdup(value);
+		}
 	}
 }
