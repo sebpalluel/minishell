@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/27 15:21:44 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/13 16:06:10 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/13 18:52:34 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,11 @@ static int		ft_cdmove(t_sh *sh, char *path)
 	char		*tmp;
 	int			ret;
 
-	tmp = (path[ft_strlen(path) - 1] != '/' ? ft_strjoin(path, "/") : path);
+	tmp = (path[ft_strlen(path) - 1] != '/' ? ft_strjoin(path, "/") : \
+			ft_strdup(path));
 	ret = chdir(tmp);
+	if (tmp)
+		free(tmp);
 	if (ret == -1 || !sh->path)
 	{
 		sh->return_col = ft_checkaccess("cd : ", path, 0, ERROR);

@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:33:46 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/13 14:14:16 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/13 19:31:34 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,14 @@ char			*ft_getpath(t_sh *sh)
 	char		*cwd;
 	char		*path;
 	char		*home;
+	t_list		*tmp;
 
 	path = NULL;
 	home = NULL;
-	if (!(cwd = getcwd(sh->buff, BUFF_CWD)))
-		return(NULL);
+	cwd = getcwd(sh->buff, BUFF_CWD);
+	tmp = ft_searchenv(sh->env, "HOME");
+	if (!cwd || !tmp)
+		return (NULL);
 	if (!(home = ENVSTRUCT(ft_searchenv(sh->env, "HOME"))->value))
 	{
 		free(cwd);
@@ -102,18 +105,16 @@ char			**ft_getenv(t_sh *sh)
 	int			i;
 	t_list		*tmp;
 
-	if (sh->envi)
-		ft_tabfree((void **)sh->envi);
-	if (!(envtab = (char **)malloc(sizeof(char*) * ft_lstlen(sh->env))))
+	if (!(envtab = (char **)malloc(sizeof(char*) * (ft_lstlen(sh->env) + 1))))
 		return (NULL);
 	tmp = sh->env;
-	i = -1;
+	i = 0;
 	while (tmp)
 	{
 		str = ft_strdup(ENVSTRUCT(tmp)->name);
 		str = ft_strjoinfree(str, "=", 1);
 		str = ft_strjoinfree(str, ENVSTRUCT(tmp)->value, 1);
-		envtab[++i] = ft_strdup(str);
+		envtab[i++] = ft_strdup(str);
 		free(str);
 		tmp = tmp->next;
 	}
@@ -140,7 +141,10 @@ void		ft_editenv(t_list *env, char *name, char *value)
 		else
 		{
 			free(ENVSTRUCT(list)->value);
-			ENVSTRUCT(list)->value = ft_strdup(value);
+			if (value)
+				ENVSTRUCT(list)->value = ft_strdup(value);
+			else
+				ENVSTRUCT(list)->value = ft_strdup("");
 		}
 	}
 }

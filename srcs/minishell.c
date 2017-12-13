@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/23 16:45:28 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/13 15:02:09 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/13 18:14:21 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ int				ft_error(char *shell, char *command, \
 	ft_putstr_fd(shell, 2);
 	ft_putstr_fd(command, 2);
 	ft_putendl_fd(error, 2);
+	if (r_val == CMD_DEL)
+		free(command);
 	return(r_val);
 }
 
