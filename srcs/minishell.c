@@ -6,10 +6,9 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/23 16:45:28 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/14 12:53:57 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/14 14:22:56 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../includes/minishell.h"
 
@@ -83,12 +82,15 @@ int			main(int argc, char **argv, char **envp)
 			!(sh->builtins = ft_validfuncsptr()) || \
 			!(sh->path = ft_getpath(sh)))
 		return (EXIT_FAILURE);
+	sig_erase = ERROR;
+	signal(SIGINT, ft_handlectrlc);
 	argc = 0;
 	argv = NULL;
 	sh->return_col = OK;
 	ft_printprompt(sh);
-	while (get_next_line(0, &sh->line) >= 0)
+	while (get_next_line(0, &sh->line) >= 0 && sig_erase != OK)
 		if (ft_prompt(sh) != OK)
 			return (EXIT_FAILURE);
+	ft_exit(sh);
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 11:12:09 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/14 12:53:08 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/14 14:20:15 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,9 @@ void		ft_delenvelem(t_list **env, char *name)
 	else
 		ft_lstdelif(env, name, ft_delcmpr, ft_delenvnode);
 	return ;
+}
+
+void		ft_handlectrlc()
+{
+	sig_erase = OK;
 }

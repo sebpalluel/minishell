@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/15 14:10:14 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/14 12:57:03 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/14 14:22:51 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ void	ft_exit(void *a)
 	if (sh->path)
 		free(sh->path);
 	free(sh);
+	ft_error("minishell: ", NULL, "exited nornamlly", 0);
 	exit(EXIT_SUCCESS);
 }
 
