@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:32:06 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/13 19:22:08 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/14 12:59:27 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,92 +46,6 @@ static int	ft_builtinfuncs(t_sh *sh)
 				return (OK);
 			}
 		}
-	}
-	return (ERROR);
-}
-
-int			ft_getbinary(char *path, t_sh *sh)
-{
-	int		status;
-	int		es;
-
-	if (sh->father == 0)
-	{
-		es = execve(path, sh->commands, sh->envi);
-		exit(es);
-	}
-	if (sh->father > 0) 
-	{
-		if (waitpid(sh->father, &status, 0) > 0) 
-		{
-			if (WEXITSTATUS(status) == 127)
-				ft_error(SHELL, sh->commands[0], ": execve failed", 0);
-			if ((sh->return_col = WEXITSTATUS(status)) != 255)
-				return (OK);
-		}
-		else
-			return (ft_error(SHELL, sh->commands[0], ": waitpid failed", OK));
-	}
-	else
-		ft_error(SHELL, sh->commands[0], ": failed to fork", OK);
-	return (ERROR);
-}
-
-int				ft_checkaccess(char *shell, char *path, int mode, int env_mode)
-{
-	struct stat path_stat;
-	int			ret;
-
-	lstat(path, &path_stat);
-	if (access(path, F_OK) != OK)
-		return (ret = mode ? ERROR : \
-				ft_error(shell, path, ": No such file or directory", ERROR));
-	else if (!env_mode)
-	{
-		if (!S_ISDIR(path_stat.st_mode))
-			return (ret = mode ? ERROR : \
-					ft_error(shell, path, ": Not a directory", ERROR));
-	}
-	else if (access(path, X_OK) != OK)
-		return (ret = mode ? ERROR : \
-				ft_error(shell, path, ": Permission denied", ERROR));
-	return (OK);
-}
-
-static int		ft_elsefuncscore(t_sh *sh, int i)
-{
-	char		*command;
-
-	command = ft_strjoin(sh->bindirs[i], "/");
-	command = ft_strjoinfree(command, sh->commands[0], 1);
-	if (access(command, F_OK) == 0)
-	{
-		if ((sh->return_col = access(command, X_OK) != OK))
-			return(ft_error(SHELL, command, ": Permission denied", CMD_DEL));
-		else
-		{
-			sh->father = fork();
-			if (ft_getbinary(command, sh) == OK)
-			{
-				free(command);
-				return (OK);
-			}
-		}
-	}
-	free(command);
-	return (ERROR);
-}
-
-static int		ft_elsefuncs(t_sh *sh)
-{
-	int			i;
-
-	i = -1;
-	while (sh->bindirs && sh->bindirs[++i])
-	{
-		if (ft_checkaccess(SHELL, sh->bindirs[i], 1, 0) == OK)
-			if (ft_elsefuncscore(sh, i) != ERROR)
-				return (OK);
 	}
 	return (ERROR);
 }

@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/23 17:04:51 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/13 14:47:37 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/14 12:52:35 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef struct		s_sh
 	char			*path;
 	pid_t			father;
 	char			**commands;
-	char			buff[BUFF_CWD];
+	char			buff[PATH_MAX];
 	int				return_col;
 }					t_sh;
 

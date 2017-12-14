@@ -6,7 +6,7 @@
 #*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        *#
 #*                                                +#+#+#+#+#+   +#+           *#
 #*   Created: 2017/10/23 17:48:20 by psebasti          #+#    #+#             *#
-#*   Updated: 2017/11/30 11:12:42 by psebasti         ###   ########.fr       *#
+#*   Updated: 2017/12/14 14:05:49 by psebasti         ###   ########.fr       *#
 #*                                                                            *#
 #* ************************************************************************** *#
 
@@ -41,6 +41,8 @@ SRCNAME 	=	minishell.c \
 				ft_echo.c \
 				ft_cd.c \
 				del.c \
+				elsefuncs.c \
+				path.c \
 				prompt.c
 
 SRC		= 	$(addprefix $(SRCDIR),$(SRCNAME))

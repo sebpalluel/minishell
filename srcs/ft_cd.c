@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/27 15:21:44 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/13 18:52:34 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/14 12:53:38 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void			ft_cd(void *a)
 	{
 		if ((tmp = ft_searchenv(sh->env, "PWD")))
 			ft_editenv(sh->env, "OLDPWD", ENVSTRUCT(tmp)->value);
-		ft_editenv(sh->env, "PWD", getcwd(sh->buff, BUFF_CWD));
+		ft_editenv(sh->env, "PWD", getcwd(sh->buff, PATH_MAX));
 	}
 	if (sh->path)
 		free(sh->path);

@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/15 14:10:14 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/13 16:14:06 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/14 12:57:03 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,22 @@ void	ft_exit(void *a)
 	t_sh *sh;
 
 	sh = (t_sh *)a;
-	//clean func
+	ft_lstdel(&sh->env, ft_delenvnode);
+	if (sh->bindirs)
+	ft_tabfree((void **)sh->bindirs);
+	if (sh->envi)
+	ft_tabfree((void **)sh->envi);
+	if (sh->commands)
+	ft_tabfree((void **)sh->commands);
+	if (sh->validfuncs)
+	ft_tabfree((void **)sh->validfuncs);
+	if (sh->line)
+		free(sh->line);
+	if (sh->builtins)
+		free(sh->builtins);
+	if (sh->path)
+		free(sh->path);
+	free(sh);
 	exit(EXIT_SUCCESS);
 }
 
@@ -89,5 +104,5 @@ void		ft_pwd(void *a)
 	if (*++cmds)
 		sh->return_col = ft_error("pwd: ", "too many arguments", NULL, ERROR);
 	else
-		ft_putendl(getcwd(sh->buff, BUFF_CWD));
+		ft_putendl(getcwd(sh->buff, PATH_MAX));
 }

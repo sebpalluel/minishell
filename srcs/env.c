@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:33:46 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/13 19:31:34 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/14 13:00:21 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,46 +25,6 @@ t_list			*ft_searchenv(t_list *env, char *name)
 			list = list->next;
 		}
 	return (NULL);
-}
-
-static char		*ft_pathfromhome(char *cwd, char *home)
-{
-	char		*tmp;
-	int			i;
-
-	i = -1;
-	while (*home && cwd[++i] && (cwd[i] == *home))
-		++home;
-	if (*home)
-		return (ft_strdup(cwd));
-	if (!cwd[i + 1])
-		return (ft_strdup("~"));
-	home = ft_strsub(cwd + i + 1, 0, ft_strlen(cwd) - i - 1);
-	tmp = ft_strjoin("~", home);
-	free(home);
-	return (tmp);
-}
-
-char			*ft_getpath(t_sh *sh)
-{
-	char		*cwd;
-	char		*path;
-	char		*home;
-	t_list		*tmp;
-
-	path = NULL;
-	home = NULL;
-	cwd = getcwd(sh->buff, BUFF_CWD);
-	tmp = ft_searchenv(sh->env, "HOME");
-	if (!cwd || !tmp)
-		return (NULL);
-	if (!(home = ENVSTRUCT(ft_searchenv(sh->env, "HOME"))->value))
-	{
-		free(cwd);
-		return(ft_strdup(cwd));
-	}
-	path = ft_pathfromhome(cwd, home);
-	return(path);
 }
 
 static t_list	*ft_newenv(char *str)
