@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/23 17:01:42 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/18 15:40:10 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/18 19:36:04 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ char			*ft_getpath(t_sh *sh);
 t_list			*ft_searchenv(t_list *env, char *name);
 void			ft_delenvelem(t_list **env, char *name);
 void			ft_delenvnode(void *content, size_t size);
+int				ft_delmatch(void *content, void *name);
 int				ft_prompt(t_sh *sh);
 void			ft_printprompt(t_sh *sh);
 char			**ft_getenv(t_sh *sh);
@@ -41,7 +42,5 @@ void			ft_env(void *a);
 void			ft_exit(void *a);
 void			ft_pwd(void *a);
 
-int				g_signal;
 pid_t			g_father;
-struct termios	tflag;
 #endif

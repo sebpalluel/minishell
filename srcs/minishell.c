@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/23 16:45:28 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/18 15:50:14 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/18 19:28:53 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,18 +82,14 @@ int			main(int argc, char **argv, char **envp)
 			!(sh->builtins = ft_validfuncsptr()) || \
 			!(sh->path = ft_getpath(sh)))
 		return (EXIT_FAILURE);
-	g_signal = ERROR;
 	argc = 0;
 	argv = NULL;
 	sh->return_col = OK;
 	ft_printprompt(sh);
-	//if (tcgetattr(0, &tflag) != 0)
-    //perror("tcgetattr() error");
-	//tcsetattr(0, ISIG, &tflag);
-	while (g_signal != SIGSTOP && get_next_line(0, &sh->line) >= 0)
+	while (get_next_line(0, &sh->line) >= 0)
 		if (ft_prompt(sh) != OK)
 			return (EXIT_FAILURE);
-	printf("exit after loop\n");
-	ft_exit(sh);
+		else
+			ft_memdel((void **)&sh->line);
 	return (EXIT_SUCCESS);
 }

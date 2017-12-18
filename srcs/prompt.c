@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:32:06 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/18 15:50:59 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/18 18:44:26 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static int		ft_readline(t_sh *sh)
 					": command not found", ERROR);
 		if (sh->commands)
 			ft_tabfree((void **)sh->commands);
-		if (sh->envi)
+		if (sh->envi && sh->envi[0])
 			ft_tabfree((void **)sh->envi);
 	}
 	ft_tabfree((void **)cmds_semi);
@@ -79,19 +79,15 @@ static int		ft_readline(t_sh *sh)
 
 int			ft_prompt(t_sh *sh)
 {
-	//printf("%d c_lflag %lu\n", ISIG, tflag.c_lflag);
-	printf("read %d\n", read(0));
-	if (sh->line > 0)
+	if (sh->line)
 	{
 		sh->return_col = OK;
 		if (ft_readline(sh) != OK)
 		{
-			free(sh->line);
+			ft_memdel((void **)&sh->line);
 			return (ERROR);
 		}
 	}
 	ft_printprompt(sh);
-	if (sh->line)
-		free(sh->line);
 	return(OK);
 }

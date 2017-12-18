@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/15 14:10:14 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/14 14:22:51 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/18 19:41:55 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,15 @@ void		ft_unsetenv(void *a)
 	sh = (t_sh *)a;
 	cmds = sh->commands;
 	if (*++cmds)
-		ft_delenvelem(&sh->env, *cmds);
+	{
+		if (!ft_strchr(*cmds, '*'))
+			ft_delenvelem(&sh->env, *cmds);
+		else
+			ft_lstdelif(&sh->env, *cmds, ft_delmatch, ft_delenvnode);
+	}
 	else
 		sh->return_col = \
-				ft_error("unsetenv: ", "Too few arguments", NULL, ERROR);
+					ft_error("unsetenv: ", "Too few arguments", NULL, ERROR);
 }
 
 void		ft_env(void *a)
@@ -77,13 +82,13 @@ void	ft_exit(void *a)
 	sh = (t_sh *)a;
 	ft_lstdel(&sh->env, ft_delenvnode);
 	if (sh->bindirs)
-	ft_tabfree((void **)sh->bindirs);
+		ft_tabfree((void **)sh->bindirs);
 	if (sh->envi)
-	ft_tabfree((void **)sh->envi);
+		ft_tabfree((void **)sh->envi);
 	if (sh->commands)
-	ft_tabfree((void **)sh->commands);
+		ft_tabfree((void **)sh->commands);
 	if (sh->validfuncs)
-	ft_tabfree((void **)sh->validfuncs);
+		ft_tabfree((void **)sh->validfuncs);
 	if (sh->line)
 		free(sh->line);
 	if (sh->builtins)
