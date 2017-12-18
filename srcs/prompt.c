@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:32:06 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/14 12:59:27 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/18 15:50:59 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ static int		ft_readline(t_sh *sh)
 
 int			ft_prompt(t_sh *sh)
 {
+	//printf("%d c_lflag %lu\n", ISIG, tflag.c_lflag);
+	printf("read %d\n", read(0));
 	if (sh->line > 0)
 	{
 		sh->return_col = OK;
@@ -89,6 +91,7 @@ int			ft_prompt(t_sh *sh)
 		}
 	}
 	ft_printprompt(sh);
-	free(sh->line);
+	if (sh->line)
+		free(sh->line);
 	return(OK);
 }

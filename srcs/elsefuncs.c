@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 12:55:49 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/14 12:59:32 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/18 12:53:12 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,15 @@ static int	ft_getbinary(char *path, t_sh *sh)
 	int		status;
 	int		es;
 
-	if (sh->father == 0)
+	if (g_father == 0)
 	{
 		es = execve(path, sh->commands, sh->envi);
 		exit(es);
 	}
-	if (sh->father > 0) 
+	if (g_father > 0) 
 	{
-		if (waitpid(sh->father, &status, 0) > 0) 
+		signal(SIGINT, ft_handlectrlc);
+		if (waitpid(g_father, &status, 0) > 0) 
 		{
 			if (WEXITSTATUS(status) == 127)
 				ft_error(SHELL, sh->commands[0], ": execve failed", 0);
@@ -51,7 +52,7 @@ static int		ft_elsefuncscore(t_sh *sh, int i)
 			return(ft_error(SHELL, command, ": Permission denied", CMD_DEL));
 		else
 		{
-			sh->father = fork();
+			g_father = fork();
 			if (ft_getbinary(command, sh) == OK)
 			{
 				free(command);

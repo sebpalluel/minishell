@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 11:12:09 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/14 14:20:15 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/18 14:50:04 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,13 @@ void		ft_delenvelem(t_list **env, char *name)
 	return ;
 }
 
-void		ft_handlectrlc()
+void		ft_handlectrlc(int sig)
 {
-	sig_erase = OK;
+	g_signal = sig;
+	printf("signal %d\n", sig);
+	if (sig == SIGINT)
+	{
+		kill(g_father, sig);
+		ft_putchar('\n');
+	}
 }
