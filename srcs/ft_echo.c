@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/27 15:20:33 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/14 12:53:42 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/19 12:02:29 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ void		ft_echo(void *a)
 
 	sh = (t_sh *)a;
 	cmds = sh->commands;
-
 	if (*++cmds && !ft_strcmp(*cmds, "-n") && (++cmds || !cmds))
 		newline = 1;
 	else

@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/23 17:04:51 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/14 12:52:35 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/19 12:28:56 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,10 @@
 # include "minishell.h"
 # include "minishell_define.h"
 
-typedef void (*builtinfunc)(void *a);
+typedef struct		s_builtins
+{
+	void			(*builtinfunc)(void *a);
+}					t_builtins;
 
 typedef struct		s_env
 {
@@ -31,7 +34,7 @@ typedef struct		s_sh
 	char			**bindirs;
 	char			**validfuncs;
 	char			**envi;
-	builtinfunc		*builtins;
+	t_builtins		*builtins;
 	char			*line;
 	char			*path;
 	pid_t			father;

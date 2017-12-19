@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/15 14:10:14 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/18 19:41:55 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/19 12:27:37 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void		ft_setenv(void *a)
 {
-	t_sh 	*sh;
+	t_sh	*sh;
 	char	**cmds;
 	char	*name;
 	char	*value;
@@ -33,7 +33,7 @@ void		ft_setenv(void *a)
 
 void		ft_unsetenv(void *a)
 {
-	t_sh 	*sh;
+	t_sh	*sh;
 	char	**cmds;
 
 	sh = (t_sh *)a;
@@ -52,7 +52,7 @@ void		ft_unsetenv(void *a)
 
 void		ft_env(void *a)
 {
-	t_sh 	*sh;
+	t_sh	*sh;
 	t_list	*tmp;
 	char	**cmds;
 	t_bool	flag;
@@ -75,9 +75,9 @@ void		ft_env(void *a)
 	sh->return_col = flag;
 }
 
-void	ft_exit(void *a)
+void		ft_exit(void *a)
 {
-	t_sh *sh;
+	t_sh	*sh;
 
 	sh = (t_sh *)a;
 	ft_lstdel(&sh->env, ft_delenvnode);
@@ -102,7 +102,7 @@ void	ft_exit(void *a)
 
 void		ft_pwd(void *a)
 {
-	t_sh 	*sh;
+	t_sh	*sh;
 	char	**cmds;
 
 	sh = (t_sh *)a;

@@ -6,26 +6,26 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 12:55:49 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/18 12:53:12 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/19 12:01:14 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static int	ft_getbinary(char *path, t_sh *sh)
+static int		ft_getbinary(char *path, t_sh *sh)
 {
-	int		status;
-	int		es;
+	int			status;
+	int			es;
 
 	if (g_father == 0)
 	{
 		es = execve(path, sh->commands, sh->envi);
 		exit(es);
 	}
-	if (g_father > 0) 
+	if (g_father > 0)
 	{
 		signal(SIGINT, ft_handlectrlc);
-		if (waitpid(g_father, &status, 0) > 0) 
+		if (waitpid(g_father, &status, 0) > 0)
 		{
 			if (WEXITSTATUS(status) == 127)
 				ft_error(SHELL, sh->commands[0], ": execve failed", 0);
@@ -49,7 +49,7 @@ static int		ft_elsefuncscore(t_sh *sh, int i)
 	if (access(command, F_OK) == 0)
 	{
 		if ((sh->return_col = access(command, X_OK) != OK))
-			return(ft_error(SHELL, command, ": Permission denied", CMD_DEL));
+			return (ft_error(SHELL, command, ": Permission denied", CMD_DEL));
 		else
 		{
 			g_father = fork();

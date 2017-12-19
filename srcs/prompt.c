@@ -6,13 +6,13 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:32:06 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/18 18:44:26 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/19 12:28:55 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	ft_printprompt(t_sh *sh)
+void		ft_printprompt(t_sh *sh)
 {
 	ft_putstr(ANSI_RESET);
 	ft_putstr(ANSI_BOLD);
@@ -42,7 +42,7 @@ static int	ft_builtinfuncs(t_sh *sh)
 		{
 			if (ft_strcmp(sh->commands[0], sh->validfuncs[i]) == 0)
 			{
-				sh->builtins[i]((void *)sh);
+				sh->builtins[i].builtinfunc((void *)sh);
 				return (OK);
 			}
 		}
@@ -50,10 +50,10 @@ static int	ft_builtinfuncs(t_sh *sh)
 	return (ERROR);
 }
 
-static int		ft_readline(t_sh *sh)
+static int	ft_readline(t_sh *sh)
 {
-	char		**cmds_semi;
-	int			i;
+	char	**cmds_semi;
+	int		i;
 
 	cmds_semi = ft_strsplit(sh->line, ';');
 	i = -1;
@@ -74,7 +74,7 @@ static int		ft_readline(t_sh *sh)
 			ft_tabfree((void **)sh->envi);
 	}
 	ft_tabfree((void **)cmds_semi);
-	return(OK);
+	return (OK);
 }
 
 int			ft_prompt(t_sh *sh)
@@ -89,5 +89,5 @@ int			ft_prompt(t_sh *sh)
 		}
 	}
 	ft_printprompt(sh);
-	return(OK);
+	return (OK);
 }

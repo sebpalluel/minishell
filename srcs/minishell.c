@@ -6,16 +6,16 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/23 16:45:28 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/18 19:28:53 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/19 12:27:41 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char		**ft_bindirs(t_sh *sh)
+char			**ft_bindirs(t_sh *sh)
 {
-	char	**bindirs;
-	t_list	*tmp;
+	char		**bindirs;
+	t_list		*tmp;
 
 	if (sh->bindirs)
 		ft_tabfree((void *)sh->bindirs);
@@ -26,9 +26,9 @@ char		**ft_bindirs(t_sh *sh)
 	return (bindirs);
 }
 
-char		**ft_validfuncs(void)
+char			**ft_validfuncs(void)
 {
-	char	**validfuncs;
+	char		**validfuncs;
 
 	if (!(validfuncs = (char**)malloc(sizeof(char*) * NUMBUILTIN)))
 		return (NULL);
@@ -43,20 +43,20 @@ char		**ft_validfuncs(void)
 	return (validfuncs);
 }
 
-builtinfunc		*ft_validfuncsptr(void)
+t_builtins		*ft_validfuncsptr(void)
 {
-	builtinfunc	*builtins;
+	struct s_builtins	*builtins;
 
-	if (!(builtins = malloc(sizeof(builtinfunc) * NUMBUILTIN)))
+	if (!(builtins = malloc(sizeof(t_builtins) * NUMBUILTIN)))
 		return (NULL);
-	builtins[0] = ft_echo;
-	builtins[1] = ft_cd;
-	builtins[2] = ft_setenv;
-	builtins[3] = ft_unsetenv;
-	builtins[4] = ft_env;
-	builtins[5] = ft_exit;
-	builtins[6] = ft_pwd;
-	builtins[7] = NULL;
+	builtins[0].builtinfunc = ft_echo;
+	builtins[1].builtinfunc = ft_cd;
+	builtins[2].builtinfunc = ft_setenv;
+	builtins[3].builtinfunc = ft_unsetenv;
+	builtins[4].builtinfunc = ft_env;
+	builtins[5].builtinfunc = ft_exit;
+	builtins[6].builtinfunc = ft_pwd;
+	builtins[7].builtinfunc = NULL;
 	return (builtins);
 }
 
@@ -68,12 +68,12 @@ int				ft_error(char *shell, char *command, \
 	ft_putendl_fd(error, 2);
 	if (r_val == CMD_DEL)
 		free(command);
-	return(r_val);
+	return (r_val);
 }
 
-int			main(int argc, char **argv, char **envp)
+int				main(int argc, char **argv, char **envp)
 {
-	t_sh	*sh;
+	t_sh		*sh;
 
 	if (!(sh = (t_sh*)ft_memalloc(sizeof(t_sh))) || \
 			!(sh->env = ft_envlist(envp)) || \

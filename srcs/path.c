@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 12:56:51 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/14 14:05:20 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/19 12:05:00 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int				ft_checkaccess(char *shell, char *path, int mode, int env_mode)
 	else if (access(path, X_OK) != OK)
 		return (ret = mode ? ERROR : \
 				ft_error(shell, path, ": Permission denied", ERROR));
-	return (OK);
+		return (OK);
 }
 
 static char		*ft_pathfromhome(char *cwd, char *home)
@@ -67,8 +67,8 @@ char			*ft_getpath(t_sh *sh)
 	if (!(home = ENVSTRUCT(ft_searchenv(sh->env, "HOME"))->value))
 	{
 		free(cwd);
-		return(ft_strdup(cwd));
+		return (ft_strdup(cwd));
 	}
 	path = ft_pathfromhome(cwd, home);
-	return(path);
+	return (path);
 }

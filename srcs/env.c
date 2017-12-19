@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:33:46 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/18 16:51:12 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/19 12:01:51 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ t_list			*ft_envlist(char **envp)
 
 	env = NULL;
 	env_num = -1;
-	while(envp[++env_num])
+	while (envp[++env_num])
 		ft_lstaddend(&env, ft_newenv(envp[env_num]));
-	return(env);
+	return (env);
 }
 
 char			**ft_getenv(t_sh *sh)
@@ -82,10 +82,10 @@ char			**ft_getenv(t_sh *sh)
 	return (envtab);
 }
 
-void		ft_editenv(t_list *env, char *name, char *value)
+void			ft_editenv(t_list *env, char *name, char *value)
 {
-	char	*tmp;
-	t_list	*list;
+	char		*tmp;
+	t_list		*list;
 
 	if (name)
 	{

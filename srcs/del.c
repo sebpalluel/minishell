@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 11:12:09 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/18 19:43:09 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/19 11:59:56 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void		ft_delenvnode(void *content, size_t size)
 
 int			ft_delcmpr(void *content, void *name)
 {
-	return(ft_strcmp(((t_env*)(content))->name, name));
+	return (ft_strcmp(((t_env*)(content))->name, name));
 }
 
 int			ft_delmatch(void *content, void *name)
@@ -35,7 +35,7 @@ int			ft_delmatch(void *content, void *name)
 
 	res = match(((t_env*)(content))->name, name);
 	res = !res;
-	return(res);
+	return (res);
 }
 
 void		ft_delenvelem(t_list **env, char *name)
