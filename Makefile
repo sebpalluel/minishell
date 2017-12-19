@@ -6,6 +6,18 @@
 #*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        *#
 #*                                                +#+#+#+#+#+   +#+           *#
 #*   Created: 2017/10/23 17:48:20 by psebasti          #+#    #+#             *#
+#*   Updated: 2017/12/19 13:24:53 by psebasti         ###   ########.fr       *#
+#*                                                                            *#
+#* ************************************************************************** *#
+
+#* ************************************************************************** *#
+#*                                                                            *#
+#*                                                        :::      ::::::::   *#
+#*   Makefile                                           :+:      :+:    :+:   *#
+#*                                                    +:+ +:+         +:+     *#
+#*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        *#
+#*                                                +#+#+#+#+#+   +#+           *#
+#*   Created: 2017/10/23 17:48:20 by psebasti          #+#    #+#             *#
 #*   Updated: 2017/12/14 14:05:49 by psebasti         ###   ########.fr       *#
 #*                                                                            *#
 #* ************************************************************************** *#
@@ -29,7 +41,7 @@ INCDIR		=	./includes/
 SRCDIR		=	./srcs/
 
 LFTDIR		=	./libft/
-LIBS		=	-lft -framework OpenGL -framework AppKit
+LIBS		=	-lft
 
 OBJNAME		=	$(SRCNAME:.c=.o)
 INCNAME		=	minishell.h \
