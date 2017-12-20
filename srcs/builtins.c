@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/15 14:10:14 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/19 12:27:37 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/20 15:55:57 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,11 @@ void		ft_setenv(void *a)
 	{
 		name = *cmds++;
 		value = *cmds;
-		ft_editenv(sh->env, name, value);
+		if (ft_checkalnum(name) == OK)
+			ft_editenv(sh->env, name, value);
+		else
+			ft_error("setenv: ", \
+				"Variable name must contain alphanumeric characters.", NULL, 1);
 	}
 	else
 		ft_env((void *)sh);
@@ -96,7 +100,7 @@ void		ft_exit(void *a)
 	if (sh->path)
 		free(sh->path);
 	free(sh);
-	ft_error("minishell: ", NULL, "exited nornamlly", 0);
+	ft_error("minishell: ", NULL, "exited normally", 0);
 	exit(EXIT_SUCCESS);
 }
 
