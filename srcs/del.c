@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/30 11:12:09 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/19 11:59:56 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/20 16:49:17 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ void		ft_delenvnode(void *content, size_t size)
 		free(((t_env*)(content))->name);
 	if (((t_env*)(content))->value)
 		free(((t_env*)(content))->value);
-	if (((t_env*)(content))->env_str)
-		free(((t_env*)(content))->env_str);
 	free(content);
 }
 

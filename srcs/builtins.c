@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/15 14:10:14 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/20 15:55:57 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/20 16:49:19 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void		ft_setenv(void *a)
 			ft_editenv(sh->env, name, value);
 		else
 			ft_error("setenv: ", \
-				"Variable name must contain alphanumeric characters.", NULL, 1);
+					"Variable name must contain alphanumeric characters.", NULL, 1);
 	}
 	else
 		ft_env((void *)sh);
@@ -51,7 +51,7 @@ void		ft_unsetenv(void *a)
 	}
 	else
 		sh->return_col = \
-					ft_error("unsetenv: ", "Too few arguments", NULL, ERROR);
+						 ft_error("unsetenv: ", "Too few arguments", NULL, ERROR);
 }
 
 void		ft_env(void *a)
@@ -59,24 +59,27 @@ void		ft_env(void *a)
 	t_sh	*sh;
 	t_list	*tmp;
 	char	**cmds;
-	t_bool	flag;
 
 	sh = (t_sh *)a;
 	tmp = sh->env;
 	cmds = sh->commands;
-	flag = OK;
 	++cmds;
 	if (*cmds)
-		if (ft_checkaccess("env : ", *cmds, 0, 1) != OK)
-			flag = ERROR;
-	while (flag == OK && tmp->next)
+		sh->return_col = ft_checkaccess("env : ", *cmds, 0, 1) != OK \
+						 ? ERROR : OK;
+	while (sh->return_col == OK && tmp->next)
 	{
-		ft_putendl(ENVSTRUCT(tmp)->env_str);
+		ft_putstr(ENVSTRUCT(tmp)->name);
+		ft_putchar('=');
+		ft_putendl(ENVSTRUCT(tmp)->value);
 		tmp = tmp->next;
 		if (!tmp->next)
-			ft_putendl(ENVSTRUCT(tmp)->env_str);
+		{
+			ft_putstr(ENVSTRUCT(tmp)->name);
+			ft_putchar('=');
+			ft_putendl(ENVSTRUCT(tmp)->value);
+		}
 	}
-	sh->return_col = flag;
 }
 
 void		ft_exit(void *a)

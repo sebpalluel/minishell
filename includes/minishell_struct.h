@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/23 17:04:51 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/19 12:28:56 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/20 16:49:16 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ typedef struct		s_env
 {
 	char			*name;
 	char			*value;
-	char			*env_str;
 }					t_env;
 
 typedef struct		s_sh

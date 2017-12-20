@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:33:46 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/19 12:01:51 by psebasti         ###   ########.fr       */
+/*   Updated: 2017/12/20 16:49:19 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ static t_list	*ft_newenv(char *str)
 	if (!(env = (t_list*)malloc(sizeof(t_env))) || \
 			!(env->content = (t_env*)ft_memalloc(sizeof(t_env))))
 		exit(EXIT_FAILURE);
-	ENVSTRUCT(env)->env_str = ft_strdup(str);
 	ENVSTRUCT(env)->name = ft_strsub(str, 0, ft_strchr(str, '=') - str);
 	tmp = ft_strchr(str, '=') + 1;
 	if (!*tmp)
