@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 12:55:49 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/19 12:01:14 by psebasti         ###   ########.fr       */
+/*   Updated: 2018/01/08 15:39:09 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,12 @@ static int		ft_elsefuncscore(t_sh *sh, int i)
 {
 	char		*command;
 
-	command = ft_strjoin(sh->bindirs[i], "/");
-	command = ft_strjoinfree(command, sh->commands[0], 1);
+	command = ft_strdup(sh->commands[0]);
+	if (ft_strchr(sh->commands[0], '/') == OK)
+	{
+		command = ft_strjoin(sh->bindirs[i], "/");
+		command = ft_strjoinfree(command, sh->commands[0], 1);
+	}
 	if (access(command, F_OK) == 0)
 	{
 		if ((sh->return_col = access(command, X_OK) != OK))
