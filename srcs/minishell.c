@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/23 16:45:28 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/19 12:27:41 by psebasti         ###   ########.fr       */
+/*   Updated: 2018/01/08 10:25:08 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int				main(int argc, char **argv, char **envp)
 	argv = NULL;
 	sh->return_col = OK;
 	ft_printprompt(sh);
-	while (get_next_line(0, &sh->line) >= 0)
+	while (get_next_line(0, &sh->line))
 		if (ft_prompt(sh) != OK)
 			return (EXIT_FAILURE);
 		else
