@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:32:06 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/19 12:28:55 by psebasti         ###   ########.fr       */
+/*   Updated: 2018/01/08 17:24:08 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ static int	ft_readline(t_sh *sh)
 	while (cmds_semi[++i])
 	{
 		if (!(sh->envi = ft_getenv(sh)) ||\
-				!(sh->commands = ft_strsplitequ(cmds_semi[i], " \t")))
+				!(sh->commands = ft_strsplitequ(cmds_semi[i], " \t")) ||\
+				sh->commands[0] == NULL)
 			return (ERROR);
 		sh->bindirs = ft_bindirs(sh);
 		if (ft_builtinfuncs(sh) == OK)
@@ -85,6 +86,7 @@ int			ft_prompt(t_sh *sh)
 		if (ft_readline(sh) != OK)
 		{
 			ft_memdel((void **)&sh->line);
+			ft_printprompt(sh);
 			return (ERROR);
 		}
 	}
