@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:32:06 by psebasti          #+#    #+#             */
-/*   Updated: 2018/01/11 18:27:33 by psebasti         ###   ########.fr       */
+/*   Updated: 2018/01/11 18:41:55 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,25 +94,25 @@ int			ft_prompt(t_sh *sh)
 	return (OK);
 }
 
-int				ft_externcmd(t_sh *sh, char **argv)
+int			ft_externcmd(t_sh *sh, char **argv)
 {
-	char		**cmds;
-	char		*line;
+	char	**cmds;
+	char	*line;
 
 	if ((line = ft_tabtostr(argv)))
 	{
 		if ((cmds = ft_strsplitequ(line, " \t")) && \
 				ft_strcmp(cmds[1], "-c") == OK)
 		{
-			argv+=2;
+			argv += 2;
 			if ((sh->line = (*argv != NULL ? ft_tabtostr(argv) : NULL)))
 				ft_readline(sh);
 			ft_tabfree((void **)cmds);
 			free(line);
-			if (!*argv)
-				return (ft_error(SHELL, "-c:", " option requires an argument", \
-							ft_del(sh, EXIT_FAILURE)));
-			return (ft_del(sh, EXIT_SUCCESS));
+			if (*argv)
+				return (ft_del(sh, EXIT_SUCCESS));
+			return (ft_error(SHELL, "-c:", " option requires an argument",\
+						ft_del(sh, EXIT_FAILURE)));
 		}
 		free(line);
 	}
