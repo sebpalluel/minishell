@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/23 17:01:42 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/19 13:23:08 by psebasti         ###   ########.fr       */
+/*   Updated: 2018/01/11 18:27:52 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@
 # include <termios.h>
 
 t_list			*ft_envlist(char **envp);
+int				ft_readline(t_sh *sh);
+int				ft_externcmd(t_sh *sh, char **argv);
+int				ft_del(t_sh *sh, int ret);
 void			ft_handlectrlc(int sig);
 int				ft_elsefuncs(t_sh *sh);
 char			**ft_bindirs(t_sh *sh);

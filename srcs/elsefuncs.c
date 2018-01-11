@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 12:55:49 by psebasti          #+#    #+#             */
-/*   Updated: 2018/01/08 16:19:53 by psebasti         ###   ########.fr       */
+/*   Updated: 2018/01/11 18:27:34 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,4 +91,25 @@ int				ft_elsefuncs(t_sh *sh)
 				return (OK);
 	}
 	return (ERROR);
+}
+
+int				ft_del(t_sh *sh, int ret)
+{
+	ft_lstdel(&sh->env, ft_delenvnode);
+	if (sh->bindirs)
+		ft_tabfree((void **)sh->bindirs);
+	if (sh->envi)
+		ft_tabfree((void **)sh->envi);
+	if (sh->commands)
+		ft_tabfree((void **)sh->commands);
+	if (sh->validfuncs)
+		ft_tabfree((void **)sh->validfuncs);
+	if (sh->line)
+		free(sh->line);
+	if (sh->builtins)
+		free(sh->builtins);
+	if (sh->path)
+		free(sh->path);
+	free(sh);
+	return (ret);
 }

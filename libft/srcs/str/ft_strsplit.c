@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/11 17:35:51 by psebasti          #+#    #+#             */
-/*   Updated: 2017/11/09 19:15:04 by psebasti         ###   ########.fr       */
+/*   Updated: 2018/01/11 17:24:28 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,13 @@ static unsigned int		ft_letters(char const *s, char c, int i)
 	unsigned int	letters;
 
 	letters = 0;
-	while (s[i] != c && s[i])
+	if (s)
 	{
-		letters++;
-		i++;
+		while (s[i] != c && s[i])
+		{
+			letters++;
+			i++;
+		}
 	}
 	return (letters);
 }

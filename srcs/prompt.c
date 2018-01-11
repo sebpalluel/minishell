@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:32:06 by psebasti          #+#    #+#             */
-/*   Updated: 2018/01/08 17:24:08 by psebasti         ###   ########.fr       */
+/*   Updated: 2018/01/11 18:27:33 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static int	ft_builtinfuncs(t_sh *sh)
 	return (ERROR);
 }
 
-static int	ft_readline(t_sh *sh)
+int			ft_readline(t_sh *sh)
 {
 	char	**cmds_semi;
 	int		i;
@@ -70,9 +70,9 @@ static int	ft_readline(t_sh *sh)
 			sh->return_col = ft_error(SHELL, sh->commands[0], \
 					": command not found", ERROR);
 		if (sh->commands)
-			ft_tabfree((void **)sh->commands);
-		if (sh->envi && sh->envi[0])
-			ft_tabfree((void **)sh->envi);
+			ft_tabnullfree((void ***)&sh->commands);
+		if (sh->envi)
+			ft_tabnullfree((void ***)&sh->envi);
 	}
 	ft_tabfree((void **)cmds_semi);
 	return (OK);
@@ -92,4 +92,30 @@ int			ft_prompt(t_sh *sh)
 	}
 	ft_printprompt(sh);
 	return (OK);
+}
+
+int				ft_externcmd(t_sh *sh, char **argv)
+{
+	char		**cmds;
+	char		*line;
+
+	if ((line = ft_tabtostr(argv)))
+	{
+		if ((cmds = ft_strsplitequ(line, " \t")) && \
+				ft_strcmp(cmds[1], "-c") == OK)
+		{
+			argv+=2;
+			if ((sh->line = (*argv != NULL ? ft_tabtostr(argv) : NULL)))
+				ft_readline(sh);
+			ft_tabfree((void **)cmds);
+			free(line);
+			if (!*argv)
+				return (ft_error(SHELL, "-c:", " option requires an argument", \
+							ft_del(sh, EXIT_FAILURE)));
+			return (ft_del(sh, EXIT_SUCCESS));
+		}
+		free(line);
+	}
+	return (ft_error(SHELL, argv[1], ": invalid option", \
+				ft_del(sh, EXIT_FAILURE)));
 }

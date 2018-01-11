@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/15 14:10:14 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/20 17:03:22 by psebasti         ###   ########.fr       */
+/*   Updated: 2018/01/11 16:44:18 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,24 +87,8 @@ void		ft_exit(void *a)
 	t_sh	*sh;
 
 	sh = (t_sh *)a;
-	ft_lstdel(&sh->env, ft_delenvnode);
-	if (sh->bindirs)
-		ft_tabfree((void **)sh->bindirs);
-	if (sh->envi)
-		ft_tabfree((void **)sh->envi);
-	if (sh->commands)
-		ft_tabfree((void **)sh->commands);
-	if (sh->validfuncs)
-		ft_tabfree((void **)sh->validfuncs);
-	if (sh->line)
-		free(sh->line);
-	if (sh->builtins)
-		free(sh->builtins);
-	if (sh->path)
-		free(sh->path);
-	free(sh);
 	ft_error("minishell: ", NULL, "exited normally", 0);
-	exit(EXIT_SUCCESS);
+	exit(ft_del(sh, EXIT_SUCCESS));
 }
 
 void		ft_pwd(void *a)
