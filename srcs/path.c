@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 12:56:51 by psebasti          #+#    #+#             */
-/*   Updated: 2018/01/12 15:26:52 by psebasti         ###   ########.fr       */
+/*   Updated: 2018/01/12 15:35:30 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int				ft_checkaccess(char *shell, char *path, int mode, int env_mode)
 	int			ret;
 
 	lstat(path, &path_stat);
-	if (access (path, F_OK) == OK && access(path, X_OK) != OK)
+	if (access(path, F_OK) == OK && access(path, X_OK) != OK)
 		return (ret = mode ? ERROR : \
 				ft_error(shell, path, ": Permission denied", ERROR));
 	else if (access(path, F_OK) != OK)
@@ -73,7 +73,7 @@ char			*ft_getpath(t_sh *sh)
 	return (path);
 }
 
-int				ft_delcmds(t_sh *sh, char ** cmds_semi, int ret)
+int				ft_delcmds(t_sh *sh, char **cmds_semi, int ret)
 {
 	if (ret == ERROR)
 		if (cmds_semi)
