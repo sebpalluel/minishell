@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/27 15:21:44 by psebasti          #+#    #+#             */
-/*   Updated: 2017/12/20 15:57:14 by psebasti         ###   ########.fr       */
+/*   Updated: 2018/01/12 15:33:39 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static int		ft_cdmove(t_sh *sh, char *path)
 		free(tmp);
 	if (ret == -1 || !sh->path)
 	{
-		sh->return_col = ft_checkaccess("cd : ", path, 0, ERROR);
+		sh->return_col = ft_checkaccess("cd : ", path, 0, 0);
 		return (ERROR);
 	}
 	return (OK);
