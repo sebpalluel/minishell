@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/14 12:55:49 by psebasti          #+#    #+#             */
-/*   Updated: 2018/01/11 18:27:34 by psebasti         ###   ########.fr       */
+/*   Updated: 2018/01/12 15:20:16 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static int		ft_elsefuncscore(t_sh *sh, int i)
 	command = ft_getcmd(sh, i);
 	if (access(command, F_OK) == 0)
 	{
-		if ((sh->return_col = access(command, X_OK) != OK))
+		if (((sh->return_col = access(command, X_OK)) != OK))
 			return (ft_error(SHELL, command, ": Permission denied", CMD_DEL));
 		else
 		{

@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/09 17:32:06 by psebasti          #+#    #+#             */
-/*   Updated: 2018/01/11 18:41:55 by psebasti         ###   ########.fr       */
+/*   Updated: 2018/01/12 15:02:01 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,19 +62,16 @@ int			ft_readline(t_sh *sh)
 		if (!(sh->envi = ft_getenv(sh)) ||\
 				!(sh->commands = ft_strsplitequ(cmds_semi[i], " \t")) ||\
 				sh->commands[0] == NULL)
-			return (ERROR);
+			return (ft_delcmds(sh, cmds_semi, ERROR));
 		sh->bindirs = ft_bindirs(sh);
 		if (ft_builtinfuncs(sh) == OK)
 			;
 		else if (ft_elsefuncs(sh) == ERROR)
 			sh->return_col = ft_error(SHELL, sh->commands[0], \
 					": command not found", ERROR);
-		if (sh->commands)
-			ft_tabnullfree((void ***)&sh->commands);
-		if (sh->envi)
-			ft_tabnullfree((void ***)&sh->envi);
+		ft_delcmds(sh, cmds_semi, OK);
 	}
-	ft_tabfree((void **)cmds_semi);
+	ft_tabnullfree((void ***)&cmds_semi);
 	return (OK);
 }
 

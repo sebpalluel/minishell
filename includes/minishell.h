@@ -6,7 +6,7 @@
 /*   By: psebasti <sebpalluel@free.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/23 17:01:42 by psebasti          #+#    #+#             */
-/*   Updated: 2018/01/11 18:38:10 by psebasti         ###   ########.fr       */
+/*   Updated: 2018/01/12 14:56:57 by psebasti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ char			*ft_getpath(t_sh *sh);
 t_list			*ft_searchenv(t_list *env, char *name);
 void			ft_delenvelem(t_list **env, char *name);
 void			ft_delenvnode(void *content, size_t size);
+int				ft_delcmds(t_sh *sh, char ** cmds_semi, int ret);
 int				ft_delmatch(void *content, void *name);
 int				ft_prompt(t_sh *sh);
 void			ft_printprompt(t_sh *sh);
